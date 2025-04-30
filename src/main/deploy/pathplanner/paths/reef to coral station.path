@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.236,
-        "y": 2.5039999999999996
+        "x": 5.15775,
+        "y": 2.8354999999999997
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.3652841414763053,
-        "y": 1.9258043834504845
+        "x": 3.4319999999999995,
+        "y": 1.9482499999999994
       },
       "isLocked": false,
       "linkedName": "start-to-close-reef-face"
@@ -28,7 +28,12 @@
       "linkedName": "coral-right"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.17344398340249284,
+      "rotationDegrees": 119.99999999999999
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -42,7 +47,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -128.15722658736902
+    "rotation": 53.67317404787975
   },
   "reversed": false,
   "folder": null,
@@ -50,5 +55,5 @@
     "velocity": 0,
     "rotation": 119.99999999999999
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }
