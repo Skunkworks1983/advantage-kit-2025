@@ -122,9 +122,6 @@ public class RobotContainer {
             () -> -leftJoystick.getY(),
             () -> -leftJoystick.getX(),
             () -> -rightJoystick.getX()));
-    
-            
-    
 
     // Lock to 0° when A button is held
     // controller

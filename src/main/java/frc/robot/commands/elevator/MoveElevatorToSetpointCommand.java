@@ -4,15 +4,12 @@
 
 package frc.robot.commands.elevator;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.utils.constants.ElevatorConstants;
-import frc.robot.utils.constants.ElevatorConstants.Elevator;
+import java.util.function.DoubleSupplier;
 
 // This command moves to the elevator from its current position to the argument
 // targetHeight (meters). This command will end when the elevator is within some
@@ -27,28 +24,39 @@ public class MoveElevatorToSetpointCommand extends Command {
   boolean isGoingUp;
   DoubleSupplier targetHeight;
 
-  private TrapezoidProfile motionProfile ;
+  private TrapezoidProfile motionProfile;
 
-  public MoveElevatorToSetpointCommand(frc.robot.subsystems.elevator.Elevator elevator, DoubleSupplier targetHeight, double elevatorVelocityOveride, double elevatorAcceletationOveride) {
+  public MoveElevatorToSetpointCommand(
+      frc.robot.subsystems.elevator.Elevator elevator,
+      DoubleSupplier targetHeight,
+      double elevatorVelocityOveride,
+      double elevatorAcceletationOveride) {
     this.targetHeight = targetHeight;
     this.elevator = elevator;
     timeElapsed = new Timer();
     timeElapsed.stop();
-    motionProfile = new TrapezoidProfile(
-      new Constraints(
-        elevatorVelocityOveride,
-        elevatorAcceletationOveride
-      )
-    );
+    motionProfile =
+        new TrapezoidProfile(new Constraints(elevatorVelocityOveride, elevatorAcceletationOveride));
 
     addRequirements(elevator);
   }
 
   @Override
   public void initialize() {
-    targetState = new State(targetHeight.getAsDouble() * frc.robot.utils.constants.ElevatorConstants.Elevator.METERS_TO_MOTOR_ROTATIONS, 0.0);
-    startState = new State(elevator.getElevatorPosition() * frc.robot.utils.constants.ElevatorConstants.Elevator.METERS_TO_MOTOR_ROTATIONS, 0.0);
-    isGoingUp = targetState.position > elevator.getElevatorPosition() * frc.robot.utils.constants.ElevatorConstants.Elevator.METERS_TO_MOTOR_ROTATIONS;
+    targetState =
+        new State(
+            targetHeight.getAsDouble()
+                * frc.robot.utils.constants.ElevatorConstants.Elevator.METERS_TO_MOTOR_ROTATIONS,
+            0.0);
+    startState =
+        new State(
+            elevator.getElevatorPosition()
+                * frc.robot.utils.constants.ElevatorConstants.Elevator.METERS_TO_MOTOR_ROTATIONS,
+            0.0);
+    isGoingUp =
+        targetState.position
+            > elevator.getElevatorPosition()
+                * frc.robot.utils.constants.ElevatorConstants.Elevator.METERS_TO_MOTOR_ROTATIONS;
     elevator.setFinalPosition(targetState.position);
     timeElapsed.reset();
     timeElapsed.start();
@@ -58,11 +66,11 @@ public class MoveElevatorToSetpointCommand extends Command {
   @Override
   public void execute() {
 
-    State newState = motionProfile.calculate(
-      timeElapsed.get(), // Time is the only variable that changes throughout each run
-      startState, 
-      targetState
-    );
+    State newState =
+        motionProfile.calculate(
+            timeElapsed.get(), // Time is the only variable that changes throughout each run
+            startState,
+            targetState);
 
     elevator.setMotorTrapezoidProfileSafe(newState.position, newState.velocity);
   }
@@ -77,11 +85,11 @@ public class MoveElevatorToSetpointCommand extends Command {
 
   @Override
   public boolean isFinished() {
-    return (frc.robot.utils.constants.ElevatorConstants.Elevator.TOLERENCE_METERS_FOR_MOVE_TO_POSITION > 
-      Math.abs(targetState.position - elevator.getElevatorPosition())) ||
-      (
-        (elevator.getBottomLimitSwitch() && !isGoingUp)
+    return (frc.robot.utils.constants.ElevatorConstants.Elevator
+                .TOLERENCE_METERS_FOR_MOVE_TO_POSITION
+            > Math.abs(targetState.position - elevator.getElevatorPosition()))
+        || ((elevator.getBottomLimitSwitch() && !isGoingUp)
         // || (elevator.getTopLimitSwitch() && isGoingUp)
-      );
+        );
   }
 }
