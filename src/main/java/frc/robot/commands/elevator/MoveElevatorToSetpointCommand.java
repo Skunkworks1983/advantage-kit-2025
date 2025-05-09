@@ -9,7 +9,8 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import java.util.function.DoubleSupplier;
+import frc.robot.subsystems.elevator.Elevator;
+import frc.robot.utils.constants.ElevatorConstants;
 
 // This command moves to the elevator from its current position to the argument
 // targetHeight (meters). This command will end when the elevator is within some
@@ -20,43 +21,30 @@ public class MoveElevatorToSetpointCommand extends Command {
   Timer timeElapsed;
   State startState;
   State targetState;
-  frc.robot.subsystems.elevator.Elevator elevator;
+  Elevator elevator;
   boolean isGoingUp;
-  DoubleSupplier targetHeight;
 
-  private TrapezoidProfile motionProfile;
+  private static final TrapezoidProfile motionProfile =
+      new TrapezoidProfile(
+          new Constraints(
+              ElevatorConstants.Profile.MAX_VELOCITY, ElevatorConstants.Profile.MAX_ACCELERATION));
 
-  public MoveElevatorToSetpointCommand(
-      frc.robot.subsystems.elevator.Elevator elevator,
-      DoubleSupplier targetHeight,
-      double elevatorVelocityOveride,
-      double elevatorAcceletationOveride) {
-    this.targetHeight = targetHeight;
+  public MoveElevatorToSetpointCommand(Elevator elevator, double targetHeight) {
+    targetState = new State(targetHeight * ElevatorConstants.METERS_TO_MOTOR_ROTATIONS, 0.0);
     this.elevator = elevator;
     timeElapsed = new Timer();
     timeElapsed.stop();
-    motionProfile =
-        new TrapezoidProfile(new Constraints(elevatorVelocityOveride, elevatorAcceletationOveride));
-
     addRequirements(elevator);
   }
 
   @Override
   public void initialize() {
-    targetState =
-        new State(
-            targetHeight.getAsDouble()
-                * frc.robot.utils.constants.ElevatorConstants.Elevator.METERS_TO_MOTOR_ROTATIONS,
-            0.0);
     startState =
         new State(
-            elevator.getElevatorPosition()
-                * frc.robot.utils.constants.ElevatorConstants.Elevator.METERS_TO_MOTOR_ROTATIONS,
-            0.0);
+            elevator.getElevatorPosition() * ElevatorConstants.METERS_TO_MOTOR_ROTATIONS, 0.0);
     isGoingUp =
         targetState.position
-            > elevator.getElevatorPosition()
-                * frc.robot.utils.constants.ElevatorConstants.Elevator.METERS_TO_MOTOR_ROTATIONS;
+            > elevator.getElevatorPosition() * ElevatorConstants.METERS_TO_MOTOR_ROTATIONS;
     elevator.setFinalPosition(targetState.position);
     timeElapsed.reset();
     timeElapsed.start();
@@ -85,8 +73,7 @@ public class MoveElevatorToSetpointCommand extends Command {
 
   @Override
   public boolean isFinished() {
-    return (frc.robot.utils.constants.ElevatorConstants.Elevator
-                .TOLERENCE_METERS_FOR_MOVE_TO_POSITION
+    return (ElevatorConstants.TOLERENCE_METERS_FOR_MOVE_TO_POSITION
             > Math.abs(targetState.position - elevator.getElevatorPosition()))
         || ((elevator.getBottomLimitSwitch() && !isGoingUp)
         // || (elevator.getTopLimitSwitch() && isGoingUp)
