@@ -18,8 +18,11 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.MoveEndEffector;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
@@ -27,6 +30,12 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import frc.robot.subsystems.elevator.Elevator;
+import frc.robot.subsystems.wrist.Wrist;
+import frc.robot.utils.constants.EndEffectorSetpointConstants.EndEffectorSetpoints;
+import frc.robot.utils.constants.OIconstants.OI;
+import frc.robot.utils.constants.OIconstants.OI.IDs.Joysticks;
+import frc.robot.utils.constants.SimConstants;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -38,18 +47,21 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 public class RobotContainer {
   // Subsystems
   private final Drive drive;
+  frc.robot.subsystems.elevator.Elevator elevator;
+  frc.robot.subsystems.wrist.Wrist wrist;
 
   // Controller
   // private final CommandXboxController controller = new CommandXboxController(0);
-  private final Joystick leftJoystick = new Joystick(0);
-  private final Joystick rightJoystick = new Joystick(1);
+  private final Joystick translationJoystick = new Joystick(Joysticks.TRANSLATION_JOYSTICK_ID);
+  private final Joystick rotationJoystick = new Joystick(Joysticks.ROTATION_JOYSTICK_ID);
+  private Joystick buttonJoystick = new Joystick(Joysticks.BUTTON_STICK_ID);
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    switch (Constants.currentMode) {
+    switch (SimConstants.currentMode) {
       case REAL:
         // Real robot, instantiate hardware IO implementations
         drive =
@@ -59,6 +71,11 @@ public class RobotContainer {
                 new ModuleIOTalonFX(TunerConstants.FrontRight),
                 new ModuleIOTalonFX(TunerConstants.BackLeft),
                 new ModuleIOTalonFX(TunerConstants.BackRight));
+
+        elevator = new Elevator();
+
+        wrist = new Wrist();
+
         break;
 
       case SIM:
@@ -118,9 +135,34 @@ public class RobotContainer {
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
             drive,
-            () -> -leftJoystick.getY(),
-            () -> -leftJoystick.getX(),
-            () -> -rightJoystick.getX()));
+            () -> -translationJoystick.getY(),
+            () -> -translationJoystick.getX(),
+            () -> -rotationJoystick.getX()));
+
+    Trigger algaeToggle = new JoystickButton(buttonJoystick, OI.IDs.Buttons.ALGAE_TOGGLE);
+    Trigger coralToggle = algaeToggle.negate();
+
+    JoystickButton endEffectorToL3 = new JoystickButton(buttonJoystick, OI.IDs.Buttons.GOTO_L3);
+    JoystickButton endEffectorToL2 = new JoystickButton(buttonJoystick, OI.IDs.Buttons.GOTO_L2);
+    JoystickButton endEffectorToScoreLow =
+        new JoystickButton(buttonJoystick, OI.IDs.Buttons.GOTO_SCORE_LOW);
+    JoystickButton endEffectorStow = new JoystickButton(buttonJoystick, OI.IDs.Buttons.GOTO_STOW);
+
+    endEffectorToL2
+        .and(coralToggle)
+        .onTrue(new MoveEndEffector(elevator, wrist, EndEffectorSetpoints.CORAL_L2));
+
+    endEffectorToScoreLow
+        .and(coralToggle)
+        .onTrue(new MoveEndEffector(elevator, wrist, EndEffectorSetpoints.CORAL_L1));
+
+    endEffectorStow
+        .and(coralToggle)
+        .onTrue(new MoveEndEffector(elevator, wrist, EndEffectorSetpoints.CORAL_STOW));
+
+    endEffectorToL3
+        .and(coralToggle)
+        .onTrue(new MoveEndEffector(elevator, wrist, EndEffectorSetpoints.CORAL_L3));
 
     // Lock to 0° when A button is held
     // controller
