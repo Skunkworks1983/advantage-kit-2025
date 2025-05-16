@@ -11,17 +11,12 @@ import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.subsystems.wrist.Wrist;
 import frc.robot.utils.constants.EndEffectorSetpointConstants;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Algae2 extends SequentialCommandGroup {
-  /** Creates a new Algae1. */
 
   Elevator elevator;
   Wrist wrist;
+  // sequental command group to move the wrist and elevator to set point to remove point of error from pathplanner
   public Algae2() {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new MoveElevatorToSetpointCommand(elevator, 
             EndEffectorSetpointConstants.EndEffectorSetpoints.ALGAE_L2.elevatorSetpoint),

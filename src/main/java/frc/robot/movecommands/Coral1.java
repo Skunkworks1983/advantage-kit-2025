@@ -11,14 +11,11 @@ import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.subsystems.wrist.Wrist;
 import frc.robot.utils.constants.EndEffectorSetpointConstants;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Coral1 extends SequentialCommandGroup {
 
   Elevator elevator;
   Wrist wrist;
-  /** Creates a new Coral1. */
+    // sequental command group to move the wrist and elevator to set point to remove point of error from pathplanner
   public Coral1() {
     addCommands(
       new MoveElevatorToSetpointCommand(elevator, 
