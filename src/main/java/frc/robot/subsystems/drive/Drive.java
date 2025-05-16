@@ -400,8 +400,7 @@ public class Drive extends SubsystemBase {
                 () ->
                     (getYMetersPerSecond.getAsDouble() * 0.5)
                         + TeleopFeatureUtils.getReefFaceSpeedY(targetHeading[0], newAlignSpeed),
-                () -> targetHeading[0],
-                true)
+                () -> targetHeading[0])
             .until(
                 () -> {
                   if (goingRight == TeleopFeatureUtils.isCloseSideOfReef(targetHeading[0])) {
@@ -413,18 +412,16 @@ public class Drive extends SubsystemBase {
         getSwerveHeadingCorrected(
                 () -> TeleopFeatureUtils.getReefFaceSpeedX(targetHeading[0], -newAlignSpeed * 0.5),
                 () -> TeleopFeatureUtils.getReefFaceSpeedY(targetHeading[0], -newAlignSpeed * 0.5),
-                () -> targetHeading[0],
-                true)
+                () -> targetHeading[0])
             .withTimeout(LidarDrivebaseConstants.AUTO_ALIGN_DRIVE_SPEED_TELEOP),
         DriveCommands.joystickDrive(this, () -> 0, () -> 0, () -> 0).withTimeout(0.04));
   }
 
-  /** Intented to be used for targeting features exclusively. */
+  /** Indented to be used for targeting features exclusively. */
   public Command getSwerveHeadingCorrected(
       DoubleSupplier getXMetersPerSecond,
       DoubleSupplier getYMetersPerSecond,
-      Supplier<Rotation2d> getDesiredHeading,
-      boolean isFieldRelative) {
+      Supplier<Rotation2d> getDesiredHeading) {
 
     return DriveCommands.drive(
         this,

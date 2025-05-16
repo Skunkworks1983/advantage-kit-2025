@@ -26,7 +26,7 @@ public class TeleopFeatureUtils {
   public static Rotation2d getPointAtReefFaceAngle(Pose2d robotPose) {
     double angleDegrees = getTargetingAngle(getReefCenter(), robotPose).getDegrees();
 
-    // Rounding to the nearest 60 degrees (the reef is hexagontal)
+    // Rounding to the nearest 60 degrees (the reef is hexagonal)
     return Rotation2d.fromDegrees(Math.round(angleDegrees / 60.0) * 60.0);
   }
 
