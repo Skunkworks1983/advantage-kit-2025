@@ -12,10 +12,10 @@ import frc.robot.subsystems.wrist.Wrist;
 import frc.robot.utils.constants.EndEffectorSetpointConstants;
 
 public class Algae2 extends SequentialCommandGroup {
-
+  
   Elevator elevator;
   Wrist wrist;
-  // sequental command group to move the wrist and elevator to set point to remove point of error from pathplanner
+    // sequental command group to move the wrist and elevator to set point to remove point of error from pathplanner
   public Algae2() {
     addCommands(
       new MoveElevatorToSetpointCommand(elevator, 

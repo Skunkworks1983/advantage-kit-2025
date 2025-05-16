@@ -12,6 +12,7 @@ import frc.robot.subsystems.wrist.Wrist;
 import frc.robot.utils.constants.EndEffectorSetpointConstants;
 
 public class Coral2 extends SequentialCommandGroup {
+  
   Elevator elevator;
   Wrist wrist;
   // sequental command group to move the wrist and elevator to set point to remove point of error from pathplanner

@@ -15,7 +15,6 @@ public class Algae3 extends SequentialCommandGroup {
 
   Elevator elevator;
   Wrist wrist;
-
   // sequental command group to move the wrist and elevator to set point to remove point of error from pathplanner
   public Algae3() {
     addCommands(
