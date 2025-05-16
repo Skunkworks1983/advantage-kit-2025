@@ -15,6 +15,8 @@ package frc.robot.subsystems.drive;
 
 import static edu.wpi.first.units.Units.*;
 
+import frc.robot.util.DrivebaseConstants;
+import frc.robot.util.LidarDrivebaseConstants;
 import com.ctre.phoenix6.CANBus;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.ModuleConfig;
@@ -27,6 +29,7 @@ import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -44,14 +47,22 @@ import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
 import frc.robot.Constants.Mode;
+import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.DualLidar;
 import frc.robot.util.LocalADStarAK;
+import frc.robot.util.TeleopFeatureUtils;
+
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.DoubleSupplier;
+import java.util.function.Supplier;
+
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
@@ -67,6 +78,15 @@ public class Drive extends SubsystemBase {
           Math.max(
               Math.hypot(TunerConstants.BackLeft.LocationX, TunerConstants.BackLeft.LocationY),
               Math.hypot(TunerConstants.BackRight.LocationX, TunerConstants.BackRight.LocationY)));
+
+
+  private DualLidar dualLidar = new DualLidar();
+
+  private PIDController headingController = new PIDController(
+      DrivebaseConstants.PIDs.HEADING_CONTROL_kP,
+      DrivebaseConstants.PIDs.HEADING_CONTROL_kI,
+      DrivebaseConstants.PIDs.HEADING_CONTROL_kD
+    );
 
   // PathPlanner config constants
   private static final double ROBOT_MASS_KG = 74.088;
@@ -364,5 +384,71 @@ public class Drive extends SubsystemBase {
       new Translation2d(TunerConstants.BackLeft.LocationX, TunerConstants.BackLeft.LocationY),
       new Translation2d(TunerConstants.BackRight.LocationX, TunerConstants.BackRight.LocationY)
     };
+  }
+
+  public Command getSwerveAlignCoral(
+      DoubleSupplier getXMetersPerSecond,
+      DoubleSupplier getYMetersPerSecond,
+      boolean goingRight,
+      double alignSpeed
+    ) {
+
+    double newAlignSpeed = alignSpeed * (goingRight ? -1 : 1);
+    Rotation2d[] targetHeading = new Rotation2d[1];
+
+    return Commands.sequence(
+      getSwerveHeadingCorrected(
+              () -> (getXMetersPerSecond.getAsDouble() * 0.5) + TeleopFeatureUtils.getReefFaceSpeedX(targetHeading[0], newAlignSpeed),
+              () -> (getYMetersPerSecond.getAsDouble() * 0.5) + TeleopFeatureUtils.getReefFaceSpeedY(targetHeading[0], newAlignSpeed),
+              () -> targetHeading[0],
+              true
+      ).until(
+        () -> {
+          if(goingRight == TeleopFeatureUtils.isCloseSideOfReef(targetHeading[0])) {
+            return dualLidar.isLidarRightTripped.getAsBoolean();
+          }
+          else {
+            return dualLidar.isLidarLeftTripped.getAsBoolean();
+          }
+        }
+      ),
+      getSwerveHeadingCorrected(
+              () -> TeleopFeatureUtils.getReefFaceSpeedX(targetHeading[0], -newAlignSpeed * 0.5),
+              () -> TeleopFeatureUtils.getReefFaceSpeedY(targetHeading[0], -newAlignSpeed * 0.5),
+              () -> targetHeading[0],
+              true
+      ).withTimeout(LidarDrivebaseConstants.AUTO_ALIGN_DRIVE_SPEED_TELEOP),
+      DriveCommands.joystickDrive(this, () -> 0, () -> 0, () -> 0).withTimeout(0.04)
+    );
+  }
+
+
+  /**
+   * Intented to be used for targeting features exclusively.
+   */
+  public Command getSwerveHeadingCorrected(
+      DoubleSupplier getXMetersPerSecond,
+      DoubleSupplier getYMetersPerSecond,
+      Supplier<Rotation2d> getDesiredHeading,
+      boolean isFieldRelative) {
+
+    return DriveCommands.drive(
+        this,
+        getXMetersPerSecond,
+        getYMetersPerSecond,
+        (DoubleSupplier) () -> {
+
+          double rotSpeed = calculateWithHeadingController(getDesiredHeading.get().getDegrees());
+
+          return rotSpeed;
+        }
+    );
+  }
+
+  public double calculateWithHeadingController(double targetHeading) {
+    return headingController.calculate(
+      getRotation().getDegrees(),
+      targetHeading
+    );
   }
 }

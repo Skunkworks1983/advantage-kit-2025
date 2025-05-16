@@ -1,3 +1,5 @@
+package frc.robot.util;
+
   public class EndEffectorSetpoints {
 
     public static final double WRIST_STOW_POSITION_CORAL = 0.0;
