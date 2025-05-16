@@ -18,15 +18,22 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.funnel.MoveFunnelToSetpoint;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import frc.robot.subsystems.funnel.Funnel;
+import frc.robot.utils.constants.ClimberConstants;
+import frc.robot.utils.constants.FunnelConstants;
+import frc.robot.utils.constants.OIConstants;
 import frc.robot.utils.constants.SimConstants;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
@@ -84,6 +91,20 @@ public class RobotContainer {
                 new ModuleIO() {});
         break;
     }
+
+    Joystick translationJoystick = new Joystick(0);
+
+    Climber climber = new Climber();
+    new JoystickButton(translationJoystick, OIConstants.IDs.Buttons.CLIMBER_GOTO_MAX)
+        .onTrue(climber.goToPositionAfterMagnetSensor(ClimberConstants.CLIMBER_MAX));
+    new JoystickButton(translationJoystick, OIConstants.IDs.Buttons.CLIMBER_GOTO_MIN)
+        .onTrue(climber.goToPositionAfterMagnetSensor(ClimberConstants.CLIMBER_MIN));
+
+    Funnel funnel = new Funnel();
+    new JoystickButton(translationJoystick, OIConstants.IDs.Buttons.FUNNEL_GO_TO_MAX)
+        .onTrue(new MoveFunnelToSetpoint(funnel, FunnelConstants.FUNNEL_POSITION_HIGH_CONVERTED));
+    new JoystickButton(translationJoystick, OIConstants.IDs.Buttons.FUNNEL_GO_TO_MIN)
+        .onTrue(new MoveFunnelToSetpoint(funnel, FunnelConstants.FUNNEL_POSITION_LOW_CONVERTED));
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());

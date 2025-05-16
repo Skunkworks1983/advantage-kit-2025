@@ -39,7 +39,7 @@ public class Elevator extends SubsystemBase {
   public Elevator() {
     TalonFXConfiguration config = new TalonFXConfiguration();
     config.CurrentLimits =
-        frc.robot.utils.constants.CurrentLimitConstants.CurrentLimits.KRAKEN_CURRENT_LIMIT_CONFIG;
+        frc.robot.utils.constants.CurrentLimitConstants.KRAKEN_CURRENT_LIMIT_CONFIG;
     motorRight.getConfigurator().apply(config);
     motorLeft.getConfigurator().apply(config);
 
