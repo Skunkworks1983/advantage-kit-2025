@@ -21,12 +21,12 @@ import frc.robot.utils.constants.ElevatorConstants;
 // all accelerations are stored in meters/second/second.
 public class Elevator extends SubsystemBase {
 
-  public TalonFX motorRight = new TalonFX(ElevatorConstants.Elevator.MOTOR_RIGHT_ID);
-  private TalonFX motorLeft = new TalonFX(ElevatorConstants.Elevator.MOTOR_LEFT_ID);
+  public TalonFX motorRight = new TalonFX(ElevatorConstants.MOTOR_RIGHT_ID);
+  private TalonFX motorLeft = new TalonFX(ElevatorConstants.MOTOR_LEFT_ID);
 
   // We do not currently have working limit switches on the wrist
   private DigitalInput bottomLimitSwitch =
-      new DigitalInput(ElevatorConstants.Elevator.BOTTOM_LIMIT_SWITCH_ID);
+      new DigitalInput(ElevatorConstants.BOTTOM_LIMIT_SWITCH_ID);
   // private DigitalInput topLimitSwitch = new DigitalInput(Constants.Elevator.TOP_LIMIT_SWITCH_ID);
 
   private double finalTargetPosition;
@@ -45,22 +45,22 @@ public class Elevator extends SubsystemBase {
 
     smartPIDController =
         new SmartPIDControllerTalonFX(
-            ElevatorConstants.Elevator.PIDs.ELEVATOR_kP,
-            ElevatorConstants.Elevator.PIDs.ELEVATOR_kI,
-            ElevatorConstants.Elevator.PIDs.ELEVATOR_kD,
-            ElevatorConstants.Elevator.PIDs.ELEVATOR_kF,
-            ElevatorConstants.Elevator.PIDs.ELEVATOR_kV,
-            ElevatorConstants.Elevator.PIDs.ELEVATOR_kA,
-            ElevatorConstants.Elevator.PIDs.ELEVATOR_kS,
+            ElevatorConstants.PIDs.ELEVATOR_kP,
+            ElevatorConstants.PIDs.ELEVATOR_kI,
+            ElevatorConstants.PIDs.ELEVATOR_kD,
+            ElevatorConstants.PIDs.ELEVATOR_kF,
+            ElevatorConstants.PIDs.ELEVATOR_kV,
+            ElevatorConstants.PIDs.ELEVATOR_kA,
+            ElevatorConstants.PIDs.ELEVATOR_kS,
             "Elevator",
-            ElevatorConstants.Elevator.PIDs.SMART_PID_ENABLED,
+            ElevatorConstants.PIDs.SMART_PID_ENABLED,
             motorRight);
 
     motorRight.setNeutralMode(NeutralModeValue.Brake);
     motorLeft.setNeutralMode(NeutralModeValue.Brake);
 
     // True means that the motor will be spinning opposite of the one it is following
-    motorLeft.setControl(new Follower(ElevatorConstants.Elevator.MOTOR_RIGHT_ID, true));
+    motorLeft.setControl(new Follower(ElevatorConstants.MOTOR_RIGHT_ID, true));
   }
 
   @Override
@@ -81,13 +81,13 @@ public class Elevator extends SubsystemBase {
   // Reminder: all positions are measured in meters
   public double getElevatorPosition() {
     return motorRight.getPosition().getValueAsDouble()
-        * ElevatorConstants.Elevator.MOTOR_ROTATIONS_TO_METERS;
+        * ElevatorConstants.MOTOR_ROTATIONS_TO_METERS;
   }
 
   // Reminder: all velocities are measured in meters/second
   public double getElevatorVelocity() {
     return motorRight.getVelocity().getValueAsDouble()
-        * ElevatorConstants.Elevator.MOTOR_ROTATIONS_TO_METERS;
+        * ElevatorConstants.MOTOR_ROTATIONS_TO_METERS;
   }
 
   // Inverted because limit switches return true until tripped
@@ -116,7 +116,7 @@ public class Elevator extends SubsystemBase {
 
   public boolean isAtSetpoint(double targetPosition) {
     return Math.abs(getElevatorPosition() - targetPosition)
-        < ElevatorConstants.Elevator.TOLORENCE_METERS_FOR_SETPOINT;
+        < ElevatorConstants.TOLORENCE_METERS_FOR_SETPOINT;
   }
 
   public void logTargetPosition(double targetPosition) {
@@ -124,7 +124,7 @@ public class Elevator extends SubsystemBase {
 
     ConditionalSmartDashboard.putNumber(
         "Elevator/Desired position in rotations",
-        targetPosition * ElevatorConstants.Elevator.METERS_TO_MOTOR_ROTATIONS);
+        targetPosition * ElevatorConstants.METERS_TO_MOTOR_ROTATIONS);
 
     ConditionalSmartDashboard.putNumber(
         "Elevator/Error in rotations",
@@ -146,7 +146,7 @@ public class Elevator extends SubsystemBase {
         "Elevator/Actual velocity in mps", motorRight.getVelocity().getValueAsDouble());
     ConditionalSmartDashboard.putNumber(
         "Elevator/Actual position in meters",
-        currentPos * ElevatorConstants.Elevator.MOTOR_ROTATIONS_TO_METERS);
+        currentPos * ElevatorConstants.MOTOR_ROTATIONS_TO_METERS);
     ConditionalSmartDashboard.putNumber("Elevator/Actual position in rotations", currentPos);
     ConditionalSmartDashboard.putBoolean("Elevator/Bottom limit switch", getBottomLimitSwitch());
     // ConditionalSmartDashboard.putBoolean("Elevator/Top limit switch", getTopLimitSwitch());
