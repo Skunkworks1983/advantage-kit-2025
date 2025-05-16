@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.util.EndEffectorSetpointConstants;
 import frc.robot.util.EndEffectorSetpoints;
-
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
@@ -29,16 +28,14 @@ public class AutomatedLidarScoring extends SequentialCommandGroup {
       BooleanSupplier expelButton) {
     addCommands(
         drivebase.getSwerveAlignCoral(
-            getXMetersPerSecond,
-            getYMetersPerSecond,
-            goingRight,
-            alignSpeed),
+            getXMetersPerSecond, getYMetersPerSecond, goingRight, alignSpeed),
         Commands.waitUntil(
-            () -> ((endEffectorSetpoint.get() == EndEffectorSetpoints.CORAL_L2)
-                || (endEffectorSetpoint.get() == EndEffectorSetpoints.CORAL_L3))
-                && expelButton.getAsBoolean()),
+            () ->
+                ((endEffectorSetpoint.get() == EndEffectorSetpoints.CORAL_L2)
+                        || (endEffectorSetpoint.get() == EndEffectorSetpoints.CORAL_L3))
+                    && expelButton.getAsBoolean()),
         Commands.waitSeconds(0.1)
-    // TODO, add expell command
-    );
+        // TODO, add expell command here
+        );
   }
 }

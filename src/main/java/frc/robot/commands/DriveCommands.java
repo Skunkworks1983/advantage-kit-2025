@@ -288,7 +288,7 @@ public class DriveCommands {
                     })));
   }
 
- private static class WheelRadiusCharacterizationState {
+  private static class WheelRadiusCharacterizationState {
     double[] positions = new double[4];
     Rotation2d lastAngle = new Rotation2d();
     double gyroDelta = 0.0;
@@ -305,7 +305,8 @@ public class DriveCommands {
     return Commands.run(
         () -> {
           // Get linear velocity
-          Translation2d linearVelocity = new Translation2d(xSupplier.getAsDouble(), ySupplier.getAsDouble());
+          Translation2d linearVelocity =
+              new Translation2d(xSupplier.getAsDouble(), ySupplier.getAsDouble());
           double omega = omegaSupplier.getAsDouble();
 
           // Convert to field relative speeds & send command
@@ -326,5 +327,4 @@ public class DriveCommands {
         },
         drive);
   }
-
 }
