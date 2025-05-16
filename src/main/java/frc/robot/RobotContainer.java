@@ -39,8 +39,8 @@ import frc.robot.utils.constants.ClimberConstants;
 import frc.robot.utils.constants.EndEffectorSetpointConstants.EndEffectorSetpoints;
 import frc.robot.utils.constants.FunnelConstants;
 import frc.robot.utils.constants.OIConstants;
-import frc.robot.utils.constants.OIconstants.OI;
-import frc.robot.utils.constants.OIconstants.OI.IDs.Joysticks;
+import frc.robot.utils.constants.OIConstants.OI;
+import frc.robot.utils.constants.OIConstants.OI.IDs.Joysticks;
 import frc.robot.utils.constants.SimConstants;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
@@ -110,15 +110,15 @@ public class RobotContainer {
     Joystick translationJoystick = new Joystick(0);
 
     Climber climber = new Climber();
-    new JoystickButton(translationJoystick, OIConstants.IDs.Buttons.CLIMBER_GOTO_MAX)
+    new JoystickButton(translationJoystick, OIConstants.OI.IDs.Buttons.CLIMBER_GOTO_MAX)
         .onTrue(climber.goToPositionAfterMagnetSensor(ClimberConstants.CLIMBER_MAX));
-    new JoystickButton(translationJoystick, OIConstants.IDs.Buttons.CLIMBER_GOTO_MIN)
+    new JoystickButton(translationJoystick, OIConstants.OI.IDs.Buttons.CLIMBER_GOTO_MIN)
         .onTrue(climber.goToPositionAfterMagnetSensor(ClimberConstants.CLIMBER_MIN));
 
     Funnel funnel = new Funnel();
-    new JoystickButton(translationJoystick, OIConstants.IDs.Buttons.FUNNEL_GO_TO_MAX)
+    new JoystickButton(translationJoystick, OIConstants.OI.IDs.Buttons.FUNNEL_GO_TO_MAX)
         .onTrue(new MoveFunnelToSetpoint(funnel, FunnelConstants.FUNNEL_POSITION_HIGH_CONVERTED));
-    new JoystickButton(translationJoystick, OIConstants.IDs.Buttons.FUNNEL_GO_TO_MIN)
+    new JoystickButton(translationJoystick, OIConstants.OI.IDs.Buttons.FUNNEL_GO_TO_MIN)
         .onTrue(new MoveFunnelToSetpoint(funnel, FunnelConstants.FUNNEL_POSITION_LOW_CONVERTED));
 
     // Set up auto routines

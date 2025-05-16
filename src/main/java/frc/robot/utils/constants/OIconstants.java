@@ -1,7 +1,7 @@
 package frc.robot.utils.constants;
 
 /** Add your docs here. */
-public class OIconstants {
+public class OIConstants {
   public class OI {
 
     public static final double AXIS_DEADBAND = .08;
