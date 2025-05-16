@@ -17,13 +17,19 @@ import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants.DriveMotorArrangement;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants.SteerMotorArrangement;
 import com.pathplanner.lib.auto.NamedCommands;
+
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.MoveEndEffector;
 import frc.robot.commands.elevator.MoveElevatorToSetpointCommand;
 import frc.robot.commands.wrist.MoveWristToSetpoint;
 import frc.robot.generated.TunerConstants;
+import frc.robot.movecommands.Algae2;
+import frc.robot.movecommands.Algae3;
 import frc.robot.movecommands.Coral1;
+import frc.robot.movecommands.Coral2;
+import frc.robot.movecommands.Coral3;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.subsystems.wrist.Wrist;
@@ -52,6 +58,8 @@ public class Robot extends LoggedRobot {
   // Optional<Funnel> funnel;
   Optional<Drive> drivebase;
 
+   private SendableChooser<Command> autoChooser;
+
   private Command autonomousCommand;
   private RobotContainer robotContainer;
 
@@ -75,7 +83,16 @@ public class Robot extends LoggedRobot {
 
       }
 
-        NamedCommands.registerCommand("elevator and wrist to coral 1", new Coral1());
+      //named commands to move elevator and wirst for coral
+      NamedCommands.registerCommand("elevator and wrist to coral 1", new Coral1());
+      NamedCommands.registerCommand("elevator and wrist to coral 2", new Coral2());
+      NamedCommands.registerCommand("elevator and wrist to coral 3", new Coral3());
+
+      //named commands to move elevator and wrist for algae 
+      NamedCommands.registerCommand("elevator and wrist to algae 2", new Algae2());
+      NamedCommands.registerCommand("elevator and wrist to algae 3", new Algae3());
+      
+
 
     // Set up data receivers & replay source
     switch (SimConstants.currentMode) {
