@@ -8,7 +8,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.util.LidarDrivebaseConstants;
+import frc.robot.utils.LidarDrivebaseConstants;
 import java.util.function.BooleanSupplier;
 
 /** Add your docs here. */
