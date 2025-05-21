@@ -9,7 +9,7 @@ public class OIConstants {
     // (x or y joystick axis input after deadband ^ AXIS_INPUT_EXPONENT)
     // * MAX_INSTRUCTED_METERS_PER_SECOND = instructed meters per second
     // Ensure that this AXIS_INPUT_EXPONENT does not result in a result
-    // that is always positive.
+    // that is always positive
     public static final double AXIS_INPUT_EXPONENT = 3.0;
 
     public class IDs {
