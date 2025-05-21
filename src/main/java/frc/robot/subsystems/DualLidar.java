@@ -11,7 +11,8 @@ import edu.wpi.first.wpilibj.Timer;
 import frc.robot.utils.LidarDrivebaseConstants;
 import java.util.function.BooleanSupplier;
 
-/** Add your docs here. */
+/** DualLidar uses the updateDistance to send a pulse of a duration slightly
+ * greater than 0.001 second every time period slightly greater than .25 seconds. */
 public class DualLidar {
   private Counter lidarRight;
   private Counter lidarLeft;
@@ -89,19 +90,20 @@ public class DualLidar {
       }
       double rightValue = lidarRight.getPeriod();
       double leftValue = lidarLeft.getPeriod();
+
       double distanceRight;
       double distanceLeft;
 
       if (lidarRight.get() < 1) {
         distanceRight = 0;
       } else {
-        distanceRight = rightValue * 1000000.0 / 10.0;
+        distanceRight = rightValue * 100000.0;
       }
 
       if (lidarLeft.get() < 1) {
         distanceLeft = 0;
       } else {
-        distanceLeft = leftValue * 1000000.0 / 10.0;
+        distanceLeft = leftValue * 100000.0;
       }
 
       // Ignore returned values that are too large (because they are not real values)
