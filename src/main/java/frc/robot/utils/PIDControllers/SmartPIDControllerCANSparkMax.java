@@ -7,6 +7,7 @@ package frc.robot.utils.PIDControllers;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import frc.robot.utils.constants.TestingConstants;
 
@@ -20,7 +21,7 @@ public class SmartPIDControllerCANSparkMax implements SmartPIDBase {
   public double lastKiValue;
   public double lastKdValue;
   public double lastKfValue;
-  public SparkMaxConfig config;
+  public SparkBaseConfig config;
 
   public SmartPIDControllerCANSparkMax(
       double kp, double ki, double kd, double kf, String name, boolean smart, SparkMax motor) {
