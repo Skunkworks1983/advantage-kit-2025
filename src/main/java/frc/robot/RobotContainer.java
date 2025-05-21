@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.MoveEndEffector;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.collector.Collector;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -32,7 +33,7 @@ import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.subsystems.wrist.Wrist;
-import frc.robot.utils.constants.EndEffectorSetpointConstants.EndEffectorSetpoints;
+import frc.robot.utils.constants.EndEffectorSetpointConstants;
 import frc.robot.utils.constants.OIconstants.OI;
 import frc.robot.utils.constants.OIconstants.OI.IDs.Joysticks;
 import frc.robot.utils.constants.SimConstants;
@@ -49,6 +50,7 @@ public class RobotContainer {
   private final Drive drive;
   frc.robot.subsystems.elevator.Elevator elevator;
   frc.robot.subsystems.wrist.Wrist wrist;
+  frc.robot.subsystems.collector.Collector collector;
 
   // Controller
   // private final CommandXboxController controller = new CommandXboxController(0);
@@ -75,6 +77,8 @@ public class RobotContainer {
         elevator = new Elevator();
 
         wrist = new Wrist();
+
+        collector = new Collector();
 
         break;
 
@@ -150,19 +154,35 @@ public class RobotContainer {
 
     endEffectorToL2
         .and(coralToggle)
-        .onTrue(new MoveEndEffector(elevator, wrist, EndEffectorSetpoints.CORAL_L2));
+        .onTrue(new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.CORAL_L2));
 
     endEffectorToScoreLow
         .and(coralToggle)
-        .onTrue(new MoveEndEffector(elevator, wrist, EndEffectorSetpoints.CORAL_L1));
+        .onTrue(new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.CORAL_L1));
 
     endEffectorStow
         .and(coralToggle)
-        .onTrue(new MoveEndEffector(elevator, wrist, EndEffectorSetpoints.CORAL_STOW));
+        .onTrue(new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.CORAL_STOW));
 
     endEffectorToL3
         .and(coralToggle)
-        .onTrue(new MoveEndEffector(elevator, wrist, EndEffectorSetpoints.CORAL_L3));
+        .onTrue(new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.CORAL_L3));
+
+    new JoystickButton(buttonJoystick, OI.IDs.Buttons.INTAKE)
+        .and(coralToggle)
+        .whileTrue(collector.intakeCoralCommand(true, elevator::getEndEffectorSetpoint));
+
+    new JoystickButton(buttonJoystick, OI.IDs.Buttons.EXPEL)
+        .and(coralToggle)
+        .whileTrue(collector.expelCoralCommand(true, elevator::getEndEffectorSetpoint));
+
+    new JoystickButton(buttonJoystick, OI.IDs.Buttons.INTAKE)
+        .and(algaeToggle)
+        .whileTrue(collector.intakeAlgaeCommand(true, elevator::getEndEffectorSetpoint));
+
+    new JoystickButton(buttonJoystick, OI.IDs.Buttons.EXPEL)
+        .and(algaeToggle)
+        .whileTrue(collector.expelAlgaeCommand(true));
 
     // Lock to 0° when A button is held
     // controller
