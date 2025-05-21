@@ -163,7 +163,9 @@ public class RobotContainer {
             () -> -translationJoystick.getX(),
             () -> -rotationJoystick.getX()));
 
-    Trigger algaeToggle = new JoystickButton(buttonJoystick, frc.robot.utils.constants.OIConstants.OI.IDs.Buttons.ALGAE_TOGGLE);
+    Trigger algaeToggle =
+        new JoystickButton(
+            buttonJoystick, frc.robot.utils.constants.OIConstants.OI.IDs.Buttons.ALGAE_TOGGLE);
     Trigger coralToggle = algaeToggle.negate();
 
     JoystickButton endEffectorToL3 = new JoystickButton(buttonJoystick, OI.IDs.Buttons.GOTO_L3);
