@@ -2,12 +2,13 @@ package frc.robot.subsystems.vision;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.wpilibj.Timer;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 import org.photonvision.PhotonCamera;
-import org.photonvision.targeting.MultiTargetPNPResult;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
@@ -15,9 +16,10 @@ public class VisionIOPhotonVision implements VisionIO {
 
   private final String cameraName;
   private final Transform3d robotToCamera;
-  private final PhotonCamera camera;
-  private final AprilTagFieldLayout aprilTagLayout =
+  final PhotonCamera camera;
+  final AprilTagFieldLayout aprilTagLayout =
       AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
+  private final double kAngularStdDev = 10.0;
 
   public VisionIOPhotonVision(String cameraName, Transform3d robotToCamera) {
     this.cameraName = cameraName;
@@ -26,60 +28,49 @@ public class VisionIOPhotonVision implements VisionIO {
   }
 
   @Override
-  public VisionIOData getLatestData() {
-    VisionIOData latestData = new VisionIOData();
+  public void updateInputs(VisionIOInputs inputs) {
+
+    List<VisionMeasurement> measurements = new LinkedList<VisionMeasurement>();
 
     for (PhotonPipelineResult result : camera.getAllUnreadResults()) {
 
-      if (result.getMultiTagResult().isPresent()) {
-        MultiTargetPNPResult multitagResult = result.getMultiTagResult().get();
-
-        Transform3d fieldToCamera = multitagResult.estimatedPose.best;
-        Transform3d fieldToRobot = fieldToCamera.plus(robotToCamera.inverse());
-        Pose3d estimatedRobotPose =
-            new Pose3d(fieldToRobot.getTranslation(), fieldToRobot.getRotation());
-
-        double totalTagDistance = 0.0;
-        for (PhotonTrackedTarget target : result.targets) {
-          totalTagDistance += target.bestCameraToTarget.getTranslation().getNorm();
-        }
-
-        latestData.poseObservations.add(
-            new PoseObservation(
-                result.getTimestampSeconds(),
-                estimatedRobotPose,
-                multitagResult.estimatedPose.ambiguity,
-                multitagResult.fiducialIDsUsed.size(),
-                totalTagDistance / result.targets.size()));
-
-      } else if (!result.targets.isEmpty()) {
-        PhotonTrackedTarget target = result.targets.get(0);
-        Optional<Pose3d> tagPose = aprilTagLayout.getTagPose(target.fiducialId);
+      for (PhotonTrackedTarget target : result.getTargets()) {
+        Optional<Pose3d> tagPose = aprilTagLayout.getTagPose(target.getFiducialId());
 
         if (tagPose.isPresent()) {
-          Transform3d fieldToTarget =
-              new Transform3d(tagPose.get().getTranslation(), tagPose.get().getRotation());
+          Pose3d fieldToTarget = tagPose.get();
+          Transform3d cameraToTarget = target.getBestCameraToTarget();
+          Pose3d fieldToCamera = fieldToTarget.plus(cameraToTarget.inverse());
+          Pose3d robotPose = fieldToCamera.plus(robotToCamera.inverse());
+          double distToTag = cameraToTarget.getTranslation().getNorm();
 
-          Transform3d cameraToTarget = target.bestCameraToTarget;
-          Transform3d fieldToCamera = fieldToTarget.plus(cameraToTarget.inverse());
-          Transform3d fieldToRobot = fieldToCamera.plus(robotToCamera.inverse());
-          Pose3d estimatedRobotPose =
-              new Pose3d(fieldToRobot.getTranslation(), fieldToRobot.getRotation());
+          // Reject the pose if it's not within the field boundries.
+          boolean rejectPose =
+              robotPose.getX() < 0.0
+                  || robotPose.getX() > aprilTagLayout.getFieldLength()
+                  || robotPose.getY() < 0.0
+                  || robotPose.getY() > aprilTagLayout.getFieldWidth();
 
-          latestData.poseObservations.add(
-              new PoseObservation(
-                  // If the timestamp is in the future, then use the FPGA timestamp instead.
-                  // Future timestamps can break the pose estimator.
-                  Math.min(result.getTimestampSeconds(), Timer.getFPGATimestamp()),
-                  estimatedRobotPose,
-                  target.poseAmbiguity,
-                  1,
-                  cameraToTarget.getTranslation().getNorm()));
+          if (rejectPose) {
+            continue;
+          }
+
+          double translationStdDev = distToTag;
+
+          measurements.add(
+              new VisionMeasurement(
+                  robotPose,
+                  result.getTimestampSeconds(),
+                  VecBuilder.fill(translationStdDev, translationStdDev, kAngularStdDev)));
         }
       }
     }
 
-    return latestData;
+    inputs.measurements = new VisionMeasurement[measurements.size()];
+
+    for (int i = 0; i < measurements.size(); i++) {
+      inputs.measurements[i] = measurements.get(i);
+    }
   }
 
   @Override
