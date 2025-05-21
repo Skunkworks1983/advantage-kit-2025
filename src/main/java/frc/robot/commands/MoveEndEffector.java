@@ -9,14 +9,14 @@ import frc.robot.commands.elevator.MoveElevatorToSetpointCommand;
 import frc.robot.commands.wrist.MoveWristToSetpoint;
 import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.subsystems.wrist.Wrist;
-import frc.robot.utils.constants.EffectorToSetpointConstants;
+import frc.robot.utils.constants.EndEffectorToSetpointConstants;
 
 // Moves wrist and elevator
 public class MoveEndEffector extends SequentialCommandGroup {
   boolean wristUp;
   boolean elevatorUp;
 
-  public MoveEndEffector(Elevator elevator, Wrist wrist, EffectorToSetpointConstants setpoint) {
+  public MoveEndEffector(Elevator elevator, Wrist wrist, EndEffectorToSetpointConstants setpoint) {
     wristUp = false;
     elevatorUp = false;
     addCommands(

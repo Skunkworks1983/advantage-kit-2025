@@ -14,8 +14,8 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.ConditionalSmartDashboard;
 import frc.robot.utils.PIDControllers.SmartPIDControllerTalonFX;
-import frc.robot.utils.constants.EffectorToSetpointConstants;
 import frc.robot.utils.constants.ElevatorConstants;
+import frc.robot.utils.constants.EndEffectorToSetpointConstants;
 
 // All positions are stored in meters, all velocities are in meters/seconds,
 // all accelerations are stored in meters/second/second.
@@ -33,8 +33,8 @@ public class Elevator extends SubsystemBase {
 
   private SmartPIDControllerTalonFX smartPIDController;
 
-  private EffectorToSetpointConstants endEffectorSetpoint =
-      frc.robot.utils.constants.EndEffectorSetpointConstants.EndEffectorSetpoints.CORAL_STOW;
+  private EndEffectorToSetpointConstants endEffectorSetpoint =
+      frc.robot.utils.constants.EndEffectorSetpointConstants.CORAL_STOW;
 
   public Elevator() {
     TalonFXConfiguration config = new TalonFXConfiguration();
@@ -164,11 +164,11 @@ public class Elevator extends SubsystemBase {
     motorRight.setControl(new DutyCycleOut(speed));
   }
 
-  public void setEndEffectorSetpoint(EffectorToSetpointConstants endEffectorSetpoint) {
+  public void setEndEffectorSetpoint(EndEffectorToSetpointConstants endEffectorSetpoint) {
     this.endEffectorSetpoint = endEffectorSetpoint;
   }
 
-  public EffectorToSetpointConstants getEndEffectorSetpoint() {
+  public EndEffectorToSetpointConstants getEndEffectorSetpoint() {
     return endEffectorSetpoint;
   }
 }
