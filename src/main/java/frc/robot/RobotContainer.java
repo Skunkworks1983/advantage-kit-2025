@@ -25,6 +25,7 @@ import frc.robot.commands.DriveCommands;
 import frc.robot.commands.MoveEndEffector;
 import frc.robot.commands.funnel.MoveFunnelToSetpoint;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.collector.Collector;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
@@ -35,9 +36,12 @@ import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.subsystems.funnel.Funnel;
 import frc.robot.subsystems.wrist.Wrist;
+import frc.robot.utils.constants.ClimberConstants;
 import frc.robot.utils.constants.EndEffectorSetpointConstants;
-import frc.robot.utils.constants.OIconstants.OI;
-import frc.robot.utils.constants.OIconstants.OI.IDs.Joysticks;
+import frc.robot.utils.constants.FunnelConstants;
+import frc.robot.utils.constants.OIConstants;
+import frc.robot.utils.constants.OIConstants.OI;
+import frc.robot.utils.constants.OIConstants.OI.IDs.Joysticks;
 import frc.robot.utils.constants.SimConstants;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
@@ -159,7 +163,7 @@ public class RobotContainer {
             () -> -translationJoystick.getX(),
             () -> -rotationJoystick.getX()));
 
-    Trigger algaeToggle = new JoystickButton(buttonJoystick, OI.IDs.Buttons.ALGAE_TOGGLE);
+    Trigger algaeToggle = new JoystickButton(buttonJoystick, frc.robot.utils.constants.OIConstants.OI.IDs.Buttons.ALGAE_TOGGLE);
     Trigger coralToggle = algaeToggle.negate();
 
     JoystickButton endEffectorToL3 = new JoystickButton(buttonJoystick, OI.IDs.Buttons.GOTO_L3);
