@@ -23,7 +23,9 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.MoveEndEffector;
+import frc.robot.commands.funnel.MoveFunnelToSetpoint;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.collector.Collector;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
@@ -32,10 +34,14 @@ import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.subsystems.elevator.Elevator;
+import frc.robot.subsystems.funnel.Funnel;
 import frc.robot.subsystems.wrist.Wrist;
+import frc.robot.utils.constants.ClimberConstants;
 import frc.robot.utils.constants.EndEffectorSetpointConstants;
-import frc.robot.utils.constants.OIconstants.OI;
-import frc.robot.utils.constants.OIconstants.OI.IDs.Joysticks;
+import frc.robot.utils.constants.FunnelConstants;
+import frc.robot.utils.constants.OIConstants;
+import frc.robot.utils.constants.OIConstants.OI;
+import frc.robot.utils.constants.OIConstants.OI.IDs.Joysticks;
 import frc.robot.utils.constants.SimConstants;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
@@ -105,6 +111,20 @@ public class RobotContainer {
         break;
     }
 
+    Joystick translationJoystick = new Joystick(0);
+
+    Climber climber = new Climber();
+    new JoystickButton(translationJoystick, OIConstants.OI.IDs.Buttons.CLIMBER_GOTO_MAX)
+        .onTrue(climber.goToPositionAfterMagnetSensor(ClimberConstants.CLIMBER_MAX));
+    new JoystickButton(translationJoystick, OIConstants.OI.IDs.Buttons.CLIMBER_GOTO_MIN)
+        .onTrue(climber.goToPositionAfterMagnetSensor(ClimberConstants.CLIMBER_MIN));
+
+    Funnel funnel = new Funnel();
+    new JoystickButton(translationJoystick, OIConstants.OI.IDs.Buttons.FUNNEL_GO_TO_MAX)
+        .onTrue(new MoveFunnelToSetpoint(funnel, FunnelConstants.FUNNEL_POSITION_HIGH_CONVERTED));
+    new JoystickButton(translationJoystick, OIConstants.OI.IDs.Buttons.FUNNEL_GO_TO_MIN)
+        .onTrue(new MoveFunnelToSetpoint(funnel, FunnelConstants.FUNNEL_POSITION_LOW_CONVERTED));
+
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 
@@ -143,7 +163,9 @@ public class RobotContainer {
             () -> -translationJoystick.getX(),
             () -> -rotationJoystick.getX()));
 
-    Trigger algaeToggle = new JoystickButton(buttonJoystick, OI.IDs.Buttons.ALGAE_TOGGLE);
+    Trigger algaeToggle =
+        new JoystickButton(
+            buttonJoystick, frc.robot.utils.constants.OIConstants.OI.IDs.Buttons.ALGAE_TOGGLE);
     Trigger coralToggle = algaeToggle.negate();
 
     JoystickButton endEffectorToL3 = new JoystickButton(buttonJoystick, OI.IDs.Buttons.GOTO_L3);

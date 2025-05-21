@@ -1,11 +1,7 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.utils.constants;
 
 /** Add your docs here. */
-public class OIconstants {
+public class OIConstants {
   public class OI {
 
     public static final double AXIS_DEADBAND = .08;
@@ -13,7 +9,7 @@ public class OIconstants {
     // (x or y joystick axis input after deadband ^ AXIS_INPUT_EXPONENT)
     // * MAX_INSTRUCTED_METERS_PER_SECOND = instructed meters per second
     // Ensure that this AXIS_INPUT_EXPONENT does not result in a result
-    // that is always positive.
+    // that is always positive
     public static final double AXIS_INPUT_EXPONENT = 3.0;
 
     public class IDs {

@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.ConditionalSmartDashboard;
 import frc.robot.utils.PIDControllers.SmartPIDControllerTalonFX;
 import frc.robot.utils.constants.CollectorConstants;
-import frc.robot.utils.constants.CurrentLimitConstants.CurrentLimits;
+import frc.robot.utils.constants.CurrentLimitConstants;
 import frc.robot.utils.constants.EndEffectorSetpointConstants;
 import frc.robot.utils.constants.EndEffectorToSetpointConstants;
 import java.util.function.Supplier;
@@ -53,7 +53,7 @@ public class Collector extends SubsystemBase {
     setDefaultCommand(holdPositionCommand());
 
     TalonFXConfiguration talonConfigCollectorMotor = new TalonFXConfiguration();
-    talonConfigCollectorMotor.CurrentLimits = CurrentLimits.KRAKEN_CURRENT_LIMIT_CONFIG;
+    talonConfigCollectorMotor.CurrentLimits = CurrentLimitConstants.KRAKEN_CURRENT_LIMIT_CONFIG;
 
     talonConfigCollectorMotor.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     rightMotor.getConfigurator().apply(talonConfigCollectorMotor);

@@ -40,7 +40,7 @@ public class Wrist extends SubsystemBase {
 
     TalonFXConfiguration config = new TalonFXConfiguration();
     config.CurrentLimits =
-        frc.robot.utils.constants.CurrentLimitConstants.CurrentLimits.KRAKEN_CURRENT_LIMIT_CONFIG;
+        frc.robot.utils.constants.CurrentLimitConstants.KRAKEN_CURRENT_LIMIT_CONFIG;
     wristMotor.getConfigurator().apply(config);
     wristMotor.setNeutralMode(NeutralModeValue.Brake);
 
