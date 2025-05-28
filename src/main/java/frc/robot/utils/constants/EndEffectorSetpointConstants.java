@@ -33,5 +33,6 @@ public class EndEffectorSetpointConstants {
       new EndEffectorToSetpointConstants(
           23.914 + 0.75, (WRIST_PROSSESSOR_STOW_POSITION / 2), WRIST_STOW_POSITION_CORAL);
   public static final EndEffectorToSetpointConstants CORAL_L4 =
-      new EndEffectorToSetpointConstants(39.0, 0.0, WRIST_STOW_POSITION_CORAL);
+      new EndEffectorToSetpointConstants(
+          39.0, (WRIST_PROSSESSOR_STOW_POSITION / 2), WRIST_STOW_POSITION_CORAL);
 }

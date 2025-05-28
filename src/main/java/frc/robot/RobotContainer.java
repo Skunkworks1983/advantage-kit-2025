@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.MoveEndEffector;
 import frc.robot.commands.funnel.MoveFunnelToSetpoint;
+import frc.robot.commands.tests.JoystickElevatorVelocity;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.collector.Collector;
@@ -111,6 +112,9 @@ public class RobotContainer {
         break;
     }
 
+    new JoystickButton(translationJoystick, 3)
+        .whileTrue(new JoystickElevatorVelocity(elevator, translationJoystick::getY));
+
     Joystick translationJoystick = new Joystick(0);
 
     Climber climber = new Climber();
@@ -173,6 +177,8 @@ public class RobotContainer {
     JoystickButton endEffectorToScoreLow =
         new JoystickButton(buttonJoystick, OI.IDs.Buttons.GOTO_SCORE_LOW);
     JoystickButton endEffectorStow = new JoystickButton(buttonJoystick, OI.IDs.Buttons.GOTO_STOW);
+    JoystickButton endEffectorToScoreHigh =
+        new JoystickButton(buttonJoystick, OI.IDs.Buttons.GOTO_SCORE_HIGH);
 
     endEffectorToL2
         .and(coralToggle)
@@ -189,6 +195,10 @@ public class RobotContainer {
     endEffectorToL3
         .and(coralToggle)
         .onTrue(new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.CORAL_L3));
+
+    endEffectorToScoreHigh
+        .and(coralToggle)
+        .onTrue(new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.CORAL_L4));
 
     new JoystickButton(buttonJoystick, OI.IDs.Buttons.INTAKE)
         .and(coralToggle)

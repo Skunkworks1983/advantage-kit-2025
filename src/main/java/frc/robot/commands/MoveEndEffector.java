@@ -16,16 +16,16 @@ public class MoveEndEffector extends SequentialCommandGroup {
   boolean wristUp;
   boolean elevatorUp;
 
-  public MoveEndEffector(Elevator elevator, Wrist wrist, EndEffectorToSetpointConstants setpoint) {
+  public MoveEndEffector(Elevator elevator, Wrist wrist, EndEffectorToSetpointConstants coralL3) {
     wristUp = false;
     elevatorUp = false;
     addCommands(
-        new MoveWristToSetpoint(wrist, setpoint.stowSetpoint)
+        new MoveWristToSetpoint(wrist, coralL3.stowSetpoint)
             .finallyDo(
                 interrupted -> {
                   wristUp = !interrupted;
                 }),
-        new MoveElevatorToSetpointCommand(elevator, setpoint.elevatorSetpoint)
+        new MoveElevatorToSetpointCommand(elevator, coralL3.elevatorSetpoint)
             .beforeStarting(
                 () -> {
                   if (!wristUp) {
@@ -36,7 +36,7 @@ public class MoveEndEffector extends SequentialCommandGroup {
                 interrupted -> {
                   elevatorUp = !interrupted;
                 }),
-        new MoveWristToSetpoint(wrist, setpoint.wristSetpoint)
+        new MoveWristToSetpoint(wrist, coralL3.wristSetpoint)
             .beforeStarting(
                 () -> {
                   if (!(elevatorUp && wristUp)) {
@@ -46,7 +46,7 @@ public class MoveEndEffector extends SequentialCommandGroup {
             .finallyDo(
                 interrupted -> {
                   if (!interrupted) {
-                    elevator.setEndEffectorSetpoint(setpoint);
+                    elevator.setEndEffectorSetpoint(coralL3);
                     System.out.println("Move end Effector finished: uninterupted");
                   } else {
                     System.out.println("Move end Effector finished: interupted");

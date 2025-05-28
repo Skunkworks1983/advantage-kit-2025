@@ -11,8 +11,10 @@ import edu.wpi.first.wpilibj.Timer;
 import frc.robot.utils.LidarDrivebaseConstants;
 import java.util.function.BooleanSupplier;
 
-/** DualLidar uses the updateDistance to send a pulse of a duration slightly
- * greater than 0.001 second every time period slightly greater than .25 seconds. */
+/**
+ * DualLidar uses the updateDistance to send a pulse of a duration slightly greater than 0.001
+ * second every time period slightly greater than .25 seconds.
+ */
 public class DualLidar {
   private Counter lidarRight;
   private Counter lidarLeft;
