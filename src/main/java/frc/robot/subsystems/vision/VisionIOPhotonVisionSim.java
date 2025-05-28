@@ -11,7 +11,7 @@ import org.photonvision.simulation.PhotonCameraSim;
 import org.photonvision.simulation.SimCameraProperties;
 import org.photonvision.simulation.VisionSystemSim;
 
-/** Add your docs here. */
+/** Currently, simulation for vision can't be used because no simulation software exists for the drivebase. */
 public class VisionIOPhotonVisionSim extends VisionIOPhotonVision {
 
   private static VisionSystemSim visionSim;
