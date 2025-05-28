@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Use for keeping a rolling average of standard deviations in x, y, and rotation for vision pose
+ * Used for keeping a rolling average of standard deviations in x, y, and rotation for vision pose
  * estimations.
  */
 public class PoseDeviations {
