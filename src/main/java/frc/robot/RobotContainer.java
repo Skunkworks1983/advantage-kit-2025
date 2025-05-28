@@ -169,9 +169,6 @@ public class RobotContainer {
         break;
     }
 
-    new JoystickButton(translationJoystick, 3)
-        .whileTrue(new JoystickElevatorVelocity(elevator, translationJoystick::getY));
-
     Joystick translationJoystick = new Joystick(0);
 
     Climber climber = new Climber();
