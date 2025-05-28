@@ -22,7 +22,7 @@ public class Climber extends SubsystemBase {
   TalonFX climbMotor;
 
   // magnet sensors for the climber
-  private DigitalInput magnetSensor1;
+  // private DigitalInput magnetSensor1;
   private DigitalInput magnetSensor2;
 
   // smart pid code for the climber motor
@@ -38,7 +38,7 @@ public class Climber extends SubsystemBase {
     climbMotor.setPosition(0.0);
 
     // instantiates the climber magnet sensors
-    magnetSensor1 = new DigitalInput(ClimberConstants.IDs.CLIMBER_MAGNET_SENSOR_1);
+    // magnetSensor1 = new DigitalInput(ClimberConstants.IDs.CLIMBER_MAGNET_SENSOR_1);
     magnetSensor2 = new DigitalInput(ClimberConstants.IDs.CLIMBER_MAGNET_SENSOR_2);
 
     // configs for climber
@@ -65,16 +65,16 @@ public class Climber extends SubsystemBase {
     SmartDashboard.putNumber("Climber/Motor position", getHeight());
     ConditionalSmartDashboard.putBoolean("Climber/Motor Connected", isMotorConnected());
     SmartDashboard.putNumber("Climber/Motor Current", getClimberMotorCurrent());
-    SmartDashboard.putBoolean("Climber/Magnet Sensor 1", magnetSensor1Tripped());
+    // SmartDashboard.putBoolean("Climber/Magnet Sensor 1", magnetSensor1Tripped());
     SmartDashboard.putBoolean("Climber/Magnet Sensor 2", magnetSensor2Tripped());
     ConditionalSmartDashboard.putNumber("Climber/Set Point", getSetPointMeters());
     ConditionalSmartDashboard.putBoolean("Climber/At Set Point", isAtSetpoint());
   }
 
   // Checks is first magnet sensor is activated. returns true if activated
-  public boolean magnetSensor1Tripped() {
-    return !magnetSensor1.get();
-  }
+  // public boolean magnetSensor1Tripped() {
+  //   return !magnetSensor1.get();
+  // }
 
   // Checks is second magnet sensor is activated. returns true if activated
   public boolean magnetSensor2Tripped() {
@@ -142,7 +142,7 @@ public class Climber extends SubsystemBase {
   public Command waitUntilMagnetSensorsAreTrue() {
     return Commands.waitUntil(
         () -> {
-          return magnetSensor1Tripped() && magnetSensor2Tripped();
+          return magnetSensor2Tripped();
         });
   }
 }
