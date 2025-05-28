@@ -14,6 +14,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -81,10 +82,66 @@ public class RobotContainer {
                 new ModuleIOTalonFX(TunerConstants.BackRight));
 
         elevator = new Elevator();
-
         wrist = new Wrist();
-
         collector = new Collector();
+
+        // move to pos coral
+        NamedCommands.registerCommand(
+            "Coral to L4",
+            new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.CORAL_L4));
+
+        NamedCommands.registerCommand(
+            "Coral to L3",
+            new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.CORAL_L3));
+
+        NamedCommands.registerCommand(
+            "Coral to L2",
+            new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.CORAL_L2));
+
+        NamedCommands.registerCommand(
+            "Coral to L1",
+            new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.CORAL_L1));
+
+        NamedCommands.registerCommand(
+            "Coral to Ground",
+            new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.CORAL_GROUND));
+
+        NamedCommands.registerCommand(
+            "Coral to Stow",
+            new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.CORAL_STOW));
+
+        // move to pos Algae
+        NamedCommands.registerCommand(
+            "Algae to L2 ",
+            new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.ALGAE_L2));
+
+        NamedCommands.registerCommand(
+            "Algae to L3",
+            new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.ALGAE_L3));
+
+        NamedCommands.registerCommand(
+            "Algae to Ground",
+            new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.ALGAE_GROUND));
+
+        NamedCommands.registerCommand(
+            "Algae to Processor",
+            new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.ALGAE_PROCESSOR));
+
+        NamedCommands.registerCommand(
+            "Algea to Stow",
+            new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.ALGAE_STOW));
+
+        // Collector
+        NamedCommands.registerCommand(
+            "Expel Coral", collector.expelCoralCommand(true, elevator::getEndEffectorSetpoint));
+
+        NamedCommands.registerCommand("Expel Algae", collector.expelAlgaeCommand(true));
+
+        NamedCommands.registerCommand(
+            "Intake Coral", collector.intakeCoralCommand(true, elevator::getEndEffectorSetpoint));
+
+        NamedCommands.registerCommand(
+            "Intake Algae ", collector.intakeAlgaeCommand(true, elevator::getEndEffectorSetpoint));
 
         break;
 
