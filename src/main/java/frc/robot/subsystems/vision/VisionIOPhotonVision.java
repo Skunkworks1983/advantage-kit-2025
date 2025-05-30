@@ -19,7 +19,7 @@ public class VisionIOPhotonVision implements VisionIO {
   final PhotonCamera camera;
   final AprilTagFieldLayout aprilTagLayout =
       AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
-  private final double kAngularStdDev = 10.0;
+  private final double kAngularStdDev = 15.0;
 
   public VisionIOPhotonVision(String cameraName, Transform3d robotToCamera) {
     this.cameraName = cameraName;
@@ -55,13 +55,14 @@ public class VisionIOPhotonVision implements VisionIO {
             continue;
           }
 
-          double translationStdDev = distToTag;
+          // Quadratic relationship between std dev and distance to the tag.
+          double translationalStdDev = (0.0329)*Math.pow(distToTag, 2) + (-0.0222)*distToTag + (0.0048);;
 
           measurements.add(
               new VisionMeasurement(
                   robotPose,
                   result.getTimestampSeconds(),
-                  VecBuilder.fill(translationStdDev, translationStdDev, kAngularStdDev)));
+                  VecBuilder.fill(translationalStdDev, translationalStdDev, kAngularStdDev)));
         }
       }
     }
