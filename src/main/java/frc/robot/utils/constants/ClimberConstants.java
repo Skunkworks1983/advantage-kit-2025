@@ -6,8 +6,8 @@ public class ClimberConstants {
 
   public class IDs {
     public static final int CLIMBER_KRAKEN_MOTOR = 13;
-    public static final int CLIMBER_MAGNET_SENSOR_1 = 3;
-    public static final int CLIMBER_MAGNET_SENSOR_2 = 4;
+    public static final int CLIMBER_MAGNET_SENSOR_1 = 2;
+    public static final int CLIMBER_MAGNET_SENSOR_2 = 6;
   }
 
   public class PIDs {
