@@ -30,6 +30,8 @@ public class Elevator extends SubsystemBase {
   // private DigitalInput topLimitSwitch = new DigitalInput(Constants.Elevator.TOP_LIMIT_SWITCH_ID);
 
   private double finalTargetPosition;
+  private double min = 0;
+  private double max = 0;
 
   private SmartPIDControllerTalonFX smartPIDController;
 
@@ -59,12 +61,17 @@ public class Elevator extends SubsystemBase {
     motorRight.setNeutralMode(NeutralModeValue.Brake);
     motorLeft.setNeutralMode(NeutralModeValue.Brake);
 
+    min = motorRight.getPosition().getValueAsDouble();
+    max = motorRight.getPosition().getValueAsDouble();
+
     // True means that the motor will be spinning opposite of the one it is following
     motorLeft.setControl(new Follower(ElevatorConstants.MOTOR_RIGHT_ID, true));
   }
 
   @Override
   public void periodic() {
+    max = Math.max(max, motorRight.getPosition().getValueAsDouble());
+    min = Math.min(min, motorRight.getPosition().getValueAsDouble());
     smartPIDController.updatePID();
 
     // Setposition counts as a config update, try and do this sparingly

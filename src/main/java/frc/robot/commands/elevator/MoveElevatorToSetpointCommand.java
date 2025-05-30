@@ -35,7 +35,7 @@ public class MoveElevatorToSetpointCommand extends Command {
     timeElapsed = new Timer();
     timeElapsed.stop();
     addRequirements(elevator);
-  }
+ }
 
   @Override
   public void initialize() {
