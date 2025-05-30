@@ -22,10 +22,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.commands.AutomatedLidarScoring;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.MoveEndEffector;
 import frc.robot.commands.funnel.MoveFunnelToSetpoint;
-import frc.robot.commands.tests.JoystickElevatorVelocity;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.collector.Collector;
@@ -143,6 +143,8 @@ public class RobotContainer {
 
         NamedCommands.registerCommand(
             "Intake Algae ", collector.intakeAlgaeCommand(true, elevator::getEndEffectorSetpoint));
+
+        //NamedCommands.registerCommand("AutomatedLidarScoring", AutomatedLidarScoring);
 
         break;
 

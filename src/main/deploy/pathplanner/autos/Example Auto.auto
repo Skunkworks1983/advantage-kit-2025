@@ -5,9 +5,22 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "sequential",
           "data": {
-            "pathName": "Example Path"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Example Path"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Coral to L4"
+                }
+              }
+            ]
           }
         }
       ]
