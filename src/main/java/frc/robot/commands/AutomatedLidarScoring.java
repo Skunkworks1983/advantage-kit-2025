@@ -6,9 +6,11 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.subsystems.collector.Collector;
 import frc.robot.subsystems.drive.Drive;
-import frc.robot.utils.EndEffectorSetpointConstants;
-import frc.robot.utils.EndEffectorSetpoints;
+import frc.robot.utils.constants.EndEffectorSetpointConstants;
+import frc.robot.utils.constants.EndEffectorToSetpointConstants;
+
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
@@ -20,9 +22,10 @@ public class AutomatedLidarScoring extends SequentialCommandGroup {
   /** Creates a new AutomatedLidarScoring. */
   public AutomatedLidarScoring(
       Drive drivebase,
+      Collector collector,
       DoubleSupplier getXMetersPerSecond,
       DoubleSupplier getYMetersPerSecond,
-      Supplier<EndEffectorSetpointConstants> endEffectorSetpoint,
+      Supplier<EndEffectorToSetpointConstants> endEffectorSetpoint,
       boolean goingRight,
       double alignSpeed,
       BooleanSupplier expelButton) {
@@ -31,11 +34,13 @@ public class AutomatedLidarScoring extends SequentialCommandGroup {
             getXMetersPerSecond, getYMetersPerSecond, goingRight, alignSpeed),
         Commands.waitUntil(
             () ->
-                ((endEffectorSetpoint.get() == EndEffectorSetpoints.CORAL_L2)
-                        || (endEffectorSetpoint.get() == EndEffectorSetpoints.CORAL_L3))
+                ((endEffectorSetpoint.get() == EndEffectorSetpointConstants.CORAL_L2)
+                        || (endEffectorSetpoint.get() == EndEffectorSetpointConstants.CORAL_L3))
                     && expelButton.getAsBoolean()),
-        Commands.waitSeconds(0.1)
-        // TODO, add expell command here
+        Commands.waitSeconds(0.1),
+        collector.expelCoralCommand(
+            true,
+            endEffectorSetpoint).withTimeout(2)
         );
   }
 }
