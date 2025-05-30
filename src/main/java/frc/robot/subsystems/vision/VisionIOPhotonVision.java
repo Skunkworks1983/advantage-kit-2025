@@ -56,7 +56,9 @@ public class VisionIOPhotonVision implements VisionIO {
           }
 
           // Quadratic relationship between std dev and distance to the tag.
-          double translationalStdDev = (0.0329)*Math.pow(distToTag, 2) + (-0.0222)*distToTag + (0.0048);;
+          double translationalStdDev =
+              (0.0329) * Math.pow(distToTag, 2) + (-0.0222) * distToTag + (0.0048);
+          ;
 
           measurements.add(
               new VisionMeasurement(
