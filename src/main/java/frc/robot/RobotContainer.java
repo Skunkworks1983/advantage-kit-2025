@@ -25,7 +25,6 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.MoveEndEffector;
 import frc.robot.commands.funnel.MoveFunnelToSetpoint;
-import frc.robot.commands.tests.JoystickElevatorVelocity;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.collector.Collector;
@@ -37,6 +36,8 @@ import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.subsystems.funnel.Funnel;
+import frc.robot.subsystems.vision.Vision;
+import frc.robot.subsystems.vision.constants.VisionConstants;
 import frc.robot.subsystems.wrist.Wrist;
 import frc.robot.utils.constants.ClimberConstants;
 import frc.robot.utils.constants.EndEffectorSetpointConstants;
@@ -86,6 +87,8 @@ public class RobotContainer {
         wrist = new Wrist();
         collector = new Collector();
 
+        Vision vision =
+            new Vision(drive::addVisionMeasurement, VisionConstants.Comp2025Mount.IO_CONSTANTS);
         // move to pos coral
         NamedCommands.registerCommand(
             "Coral to L4",
