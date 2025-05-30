@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.commands.AutomatedLidarScoring;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.MoveEndEffector;
 import frc.robot.commands.funnel.MoveFunnelToSetpoint;
@@ -46,6 +47,11 @@ import frc.robot.utils.constants.OIConstants;
 import frc.robot.utils.constants.OIConstants.OI;
 import frc.robot.utils.constants.OIConstants.OI.IDs.Joysticks;
 import frc.robot.utils.constants.SimConstants;
+
+import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
+import java.util.function.Supplier;
+
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -146,6 +152,16 @@ public class RobotContainer {
 
         NamedCommands.registerCommand(
             "Intake Algae ", collector.intakeAlgaeCommand(true, elevator::getEndEffectorSetpoint));
+
+        NamedCommands.registerCommand("AutomatedLidarScoring right L4", 
+            new AutomatedLidarScoring(drive,collector, (DoubleSupplier)() -> 0.0, 
+            (DoubleSupplier)() -> 0.0, () -> EndEffectorSetpointConstants.CORAL_L4, 
+            true, .5, (BooleanSupplier)() -> true));
+
+        NamedCommands.registerCommand("AutomatedLidarScoring left L4", 
+            new AutomatedLidarScoring(drive,collector, (DoubleSupplier)() -> 0.0, 
+            (DoubleSupplier)() -> 0.0, () -> EndEffectorSetpointConstants.CORAL_L4, 
+            false, .5, (BooleanSupplier)() -> true));
 
         break;
 
