@@ -135,12 +135,13 @@ public class Climber extends SubsystemBase {
             () -> {
               return isAtSetpoint();
             });
-  
-  // // ends if magnet sensors are true
-  // public Command waitUntilMagnetSensorsAreTrue() {
-  //   return Commands.waitUntil(
-  //       () -> {
-  //         return magnetSensor1Tripped() && magnetSensor2Tripped();
-  //       });
-  // }
+
+    // // ends if magnet sensors are true
+    // public Command waitUntilMagnetSensorsAreTrue() {
+    //   return Commands.waitUntil(
+    //       () -> {
+    //         return magnetSensor1Tripped() && magnetSensor2Tripped();
+    //       });
+    // }
+  }
 }
