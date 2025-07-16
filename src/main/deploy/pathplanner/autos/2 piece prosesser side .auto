@@ -1,0 +1,81 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "prosesser side to side 3"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Coral to L4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutomatedLidarScoring right L4"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Coral to Stow"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "side 3 to coral station"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "prosesser to side 3"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Coral to L4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutomatedLidarScoring left L4"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Coral to Stow"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}
