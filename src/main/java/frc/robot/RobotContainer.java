@@ -301,16 +301,28 @@ public class RobotContainer {
         .whileTrue(collector.expelAlgaeCommand(true));
 
     new JoystickButton(buttonJoystick, OI.IDs.Buttons.LIDAR_SCORE_LEFT)
-        .whileTrue(new AutomatedLidarScoring(drive,collector, (DoubleSupplier)() -> 0.0, 
-        (DoubleSupplier)() -> 0.0, () -> EndEffectorSetpointConstants.CORAL_L4, 
-        false, .5, (BooleanSupplier)() -> true));
+        .whileTrue(
+            new AutomatedLidarScoring(
+                drive,
+                collector,
+                (DoubleSupplier) () -> 0.0,
+                (DoubleSupplier) () -> 0.0,
+                () -> EndEffectorSetpointConstants.CORAL_L4,
+                false,
+                .5,
+                (BooleanSupplier) () -> true));
 
     new JoystickButton(buttonJoystick, OI.IDs.Buttons.LIDAR_SCORE_RIGHT)
-        .whileTrue(new AutomatedLidarScoring(drive,collector, (DoubleSupplier)() -> 0.0, 
-        (DoubleSupplier)() -> 0.0, () -> EndEffectorSetpointConstants.CORAL_L4, 
-        true, .5, (BooleanSupplier)() -> true));
-
-    
+        .whileTrue(
+            new AutomatedLidarScoring(
+                drive,
+                collector,
+                (DoubleSupplier) () -> 0.0,
+                (DoubleSupplier) () -> 0.0,
+                () -> EndEffectorSetpointConstants.CORAL_L4,
+                true,
+                .5,
+                (BooleanSupplier) () -> true));
 
     // Lock to 0° when A button is held
     // controller
