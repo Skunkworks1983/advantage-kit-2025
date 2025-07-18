@@ -5,7 +5,7 @@ import edu.wpi.first.math.util.Units;
 public class ClimberConstants {
 
   public class IDs {
-    public static final int CLIMBER_KRAKEN_MOTOR = 13;
+    public static final int CLIMBER_KRAKEN_MOTOR = 40;
     // public static final int CLIMBER_MAGNET_SENSOR_1 = 8;
     public static final int CLIMBER_MAGNET_SENSOR_2 = 9;
   }
