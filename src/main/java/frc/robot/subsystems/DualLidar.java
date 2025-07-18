@@ -109,10 +109,10 @@ public class DualLidar {
       }
 
       // Ignore returned values that are too large (because they are not real values)
-      if (distanceRight < LidarDrivebaseConstants.LIDAR_RIGHT_DATA_CUTOFF)
-        setLidarRightOutput(distanceRight);
-      if (distanceLeft < LidarDrivebaseConstants.LIDAR_LEFT_DATA_CUTOFF)
-        setLidarLeftOutput(distanceLeft);
+      // if (distanceRight < LidarDrivebaseConstants.LIDAR_RIGHT_DATA_CUTOFF)
+      setLidarRightOutput(distanceRight);
+      // if (distanceLeft < LidarDrivebaseConstants.LIDAR_LEFT_DATA_CUTOFF)
+      setLidarLeftOutput(distanceLeft);
 
       double timeElapsed = Timer.getFPGATimestamp() - startTime;
       try {

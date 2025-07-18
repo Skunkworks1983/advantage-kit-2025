@@ -407,6 +407,19 @@ public class Drive extends SubsystemBase {
                     (getYMetersPerSecond.getAsDouble() * 0.5)
                         + TeleopFeatureUtils.getReefFaceSpeedY(targetHeading[0], newAlignSpeed),
                 () -> targetHeading[0])
+            .beforeStarting(
+                () -> {
+                  SmartDashboard.putBoolean("Auto Aligning", true);
+                  targetHeading[0] =
+                      TeleopFeatureUtils.getCoralCycleAngleNoOdometry(true, getRotation());
+                  System.out.println(
+                      "Target Heading: "
+                          + targetHeading[0]
+                          + " X: "
+                          + TeleopFeatureUtils.getReefFaceSpeedX(targetHeading[0], newAlignSpeed)
+                          + " Y: "
+                          + TeleopFeatureUtils.getReefFaceSpeedY(targetHeading[0], newAlignSpeed));
+                })
             .until(
                 () -> {
                   if (goingRight == TeleopFeatureUtils.isCloseSideOfReef(targetHeading[0])) {

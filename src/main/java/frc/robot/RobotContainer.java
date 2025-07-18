@@ -300,7 +300,7 @@ public class RobotContainer {
         .and(algaeToggle)
         .whileTrue(collector.expelAlgaeCommand(true));
 
-    new JoystickButton(buttonJoystick, OI.IDs.Buttons.LIDAR_SCORE_LEFT)
+    new JoystickButton(translationJoystick, OI.IDs.Buttons.LIDAR_SCORE_LEFT)
         .whileTrue(
             new AutomatedLidarScoring(
                 drive,
@@ -312,7 +312,7 @@ public class RobotContainer {
                 .5,
                 (BooleanSupplier) () -> true));
 
-    new JoystickButton(buttonJoystick, OI.IDs.Buttons.LIDAR_SCORE_RIGHT)
+    new JoystickButton(translationJoystick, OI.IDs.Buttons.LIDAR_SCORE_RIGHT)
         .whileTrue(
             new AutomatedLidarScoring(
                 drive,
