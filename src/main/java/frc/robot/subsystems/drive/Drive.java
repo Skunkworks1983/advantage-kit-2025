@@ -236,6 +236,8 @@ public class Drive extends SubsystemBase {
 
     SmartDashboard.putBoolean("right lidar", dualLidar.isLidarRightTripped.getAsBoolean());
     SmartDashboard.putBoolean("left lidar", dualLidar.isLidarLeftTripped.getAsBoolean());
+    SmartDashboard.putNumber("right lidar number", dualLidar.getLidarRightOutput());
+    SmartDashboard.putNumber("left lidar number", dualLidar.getLidarLeftOutput());
   }
 
   /**
