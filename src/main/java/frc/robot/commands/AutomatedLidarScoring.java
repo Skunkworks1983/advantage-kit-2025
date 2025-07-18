@@ -35,7 +35,8 @@ public class AutomatedLidarScoring extends SequentialCommandGroup {
         Commands.waitUntil(
             () ->
                 ((endEffectorSetpoint.get() == EndEffectorSetpointConstants.CORAL_L2)
-                        || (endEffectorSetpoint.get() == EndEffectorSetpointConstants.CORAL_L3))
+                        || (endEffectorSetpoint.get() == EndEffectorSetpointConstants.CORAL_L3)
+                            || (endEffectorSetpoint.get() == EndEffectorSetpointConstants.CORAL_L4))
                     && expelButton.getAsBoolean()),
         Commands.waitSeconds(0.1),
         collector.expelCoralCommand(
