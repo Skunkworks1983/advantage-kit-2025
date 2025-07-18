@@ -10,7 +10,6 @@ import frc.robot.subsystems.collector.Collector;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.utils.constants.EndEffectorSetpointConstants;
 import frc.robot.utils.constants.EndEffectorToSetpointConstants;
-
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
@@ -38,9 +37,6 @@ public class AutomatedLidarScoring extends SequentialCommandGroup {
                         || (endEffectorSetpoint.get() == EndEffectorSetpointConstants.CORAL_L3))
                     && expelButton.getAsBoolean()),
         Commands.waitSeconds(0.1),
-        collector.expelCoralCommand(
-            true,
-            endEffectorSetpoint).withTimeout(2)
-        );
+        collector.expelCoralCommand(true, endEffectorSetpoint).withTimeout(2));
   }
 }

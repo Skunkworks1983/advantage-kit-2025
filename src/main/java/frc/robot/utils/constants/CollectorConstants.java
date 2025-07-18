@@ -16,6 +16,7 @@ public class CollectorConstants {
     public static final double CORAL_INTAKE_SLOW_SPEED = 8.0; // meters per sec
     public static final double CORAL_INTAKE_FAST_SPEED = 18.0; // meters per sec
     public static final double CORAL_EXPEL_SLOW_SPEED = 3.0; // meters per sec
+    public static final double CORAL_EXPEL_L4_SPEED = 14.0; // meters per sec
     public static final double CORAL_EXPEL_FAST_SPEED = 10.0; // meters per sec
     public static final double ALGAE_INTAKE_SPEED_SLOW = 0.25; // throttle pct output
     public static final double ALGAE_INTAKE_SPEED_FAST = 0.5;
