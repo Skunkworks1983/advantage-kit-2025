@@ -46,8 +46,8 @@ public class OIConstants {
 
         public static final int RAISE_FUNNEL_TOGGLE = 0;
 
-        public static final int FUNNEL_GO_TO_MAX = 0;
-        public static final int FUNNEL_GO_TO_MIN = 0;
+        public static final int FUNNEL_GO_TO_MAX = 1;
+        public static final int FUNNEL_GO_TO_MIN = 6;
 
         public static final int LIDAR_SCORE_LEFT = 4;
         public static final int LIDAR_SCORE_RIGHT = 5;

@@ -164,7 +164,7 @@ public class Collector extends SubsystemBase {
   public Command intakeCoralCommand(
       boolean stopOnEnd, Supplier<EndEffectorToSetpointConstants> endEffectorSetpoint) {
     int endCount[] = {0}; // This value needs to be effectivly final
-    return runEnd(
+    return startEnd(
             () -> {
               if (endEffectorSetpoint.get() == EndEffectorSetpointConstants.CORAL_GROUND) {
                 setCollectorSpeeds(CollectorConstants.Speeds.CORAL_INTAKE_FAST_SPEED);
