@@ -40,7 +40,6 @@ import frc.robot.subsystems.funnel.Funnel;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.constants.VisionConstants;
 import frc.robot.subsystems.wrist.Wrist;
-import frc.robot.utils.constants.ClimberConstants;
 import frc.robot.utils.constants.EndEffectorSetpointConstants;
 import frc.robot.utils.constants.FunnelConstants;
 import frc.robot.utils.constants.OIConstants;
@@ -202,15 +201,15 @@ public class RobotContainer {
     Joystick translationJoystick = new Joystick(0);
 
     Climber climber = new Climber();
-    new JoystickButton(translationJoystick, OIConstants.OI.IDs.Buttons.CLIMBER_GOTO_MAX)
-        .onTrue(climber.goToPositionAfterMagnetSensor(ClimberConstants.CLIMBER_MAX));
-    new JoystickButton(translationJoystick, OIConstants.OI.IDs.Buttons.CLIMBER_GOTO_MIN)
-        .onTrue(climber.goToPositionAfterMagnetSensor(ClimberConstants.CLIMBER_MIN));
+    new JoystickButton(buttonJoystick, OIConstants.OI.IDs.Buttons.CLIMBER_GOTO_MAX)
+        .whileTrue(climber.raiseClimber());
+    new JoystickButton(buttonJoystick, OIConstants.OI.IDs.Buttons.CLIMBER_GOTO_MIN)
+        .whileTrue(climber.lowerClimber());
 
     Funnel funnel = new Funnel();
-    new JoystickButton(translationJoystick, OIConstants.OI.IDs.Buttons.FUNNEL_GO_TO_MAX)
+    new JoystickButton(buttonJoystick, OIConstants.OI.IDs.Buttons.FUNNEL_GO_TO_MAX)
         .onTrue(new MoveFunnelToSetpoint(funnel, FunnelConstants.FUNNEL_POSITION_HIGH_CONVERTED));
-    new JoystickButton(translationJoystick, OIConstants.OI.IDs.Buttons.FUNNEL_GO_TO_MIN)
+    new JoystickButton(buttonJoystick, OIConstants.OI.IDs.Buttons.FUNNEL_GO_TO_MIN)
         .onTrue(new MoveFunnelToSetpoint(funnel, FunnelConstants.FUNNEL_POSITION_LOW_CONVERTED));
 
     // Set up auto routines
@@ -288,7 +287,8 @@ public class RobotContainer {
         .and(coralToggle)
         .whileTrue(collector.intakeCoralCommand(true, elevator::getEndEffectorSetpoint));
 
-    new JoystickButton(buttonJoystick, OI.IDs.Buttons.EXPEL)
+    JoystickButton expelButton = new JoystickButton(buttonJoystick, OI.IDs.Buttons.EXPEL);
+    expelButton
         .and(coralToggle)
         .whileTrue(collector.expelCoralCommand(true, elevator::getEndEffectorSetpoint));
 
@@ -299,6 +299,31 @@ public class RobotContainer {
     new JoystickButton(buttonJoystick, OI.IDs.Buttons.EXPEL)
         .and(algaeToggle)
         .whileTrue(collector.expelAlgaeCommand(true));
+
+    double AUTO_JOYSTICK_SCALE = 0.25;
+    new JoystickButton(translationJoystick, OI.IDs.Buttons.LIDAR_SCORE_LEFT)
+        .whileTrue(
+            new AutomatedLidarScoring(
+                drive,
+                collector,
+                (DoubleSupplier) () -> translationJoystick.getX() * AUTO_JOYSTICK_SCALE,
+                (DoubleSupplier) () -> translationJoystick.getY() * AUTO_JOYSTICK_SCALE,
+                () -> EndEffectorSetpointConstants.CORAL_L4,
+                false,
+                .5,
+                (BooleanSupplier) () -> true));
+
+    new JoystickButton(translationJoystick, OI.IDs.Buttons.LIDAR_SCORE_RIGHT)
+        .whileTrue(
+            new AutomatedLidarScoring(
+                drive,
+                collector,
+                (DoubleSupplier) () -> translationJoystick.getX() * AUTO_JOYSTICK_SCALE,
+                (DoubleSupplier) () -> translationJoystick.getY() * AUTO_JOYSTICK_SCALE,
+                () -> EndEffectorSetpointConstants.CORAL_L4,
+                true,
+                .5,
+                (BooleanSupplier) () -> true));
 
     // Lock to 0° when A button is held
     // controller
@@ -313,7 +338,7 @@ public class RobotContainer {
     // Switch to X pattern when X button is pressed
     // controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
 
-    // Reset gyro to 0° when B button is pressed
+    // Reset  to 0° when B button is pressed
     //     controller
     //         .b()
     //         .onTrue(

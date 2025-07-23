@@ -44,6 +44,7 @@ import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -65,6 +66,7 @@ import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
 public class Drive extends SubsystemBase {
+
   // TunerConstants doesn't include these constants, so they are declared locally
   static final double ODOMETRY_FREQUENCY =
       new CANBus(TunerConstants.DrivetrainConstants.CANBusName).isNetworkFD() ? 250.0 : 100.0;
@@ -134,6 +136,8 @@ public class Drive extends SubsystemBase {
     modules[1] = new Module(frModuleIO, 1, TunerConstants.FrontRight);
     modules[2] = new Module(blModuleIO, 2, TunerConstants.BackLeft);
     modules[3] = new Module(brModuleIO, 3, TunerConstants.BackRight);
+
+    headingController.enableContinuousInput(-180, 180);
 
     // Usage reporting for swerve template
     HAL.report(tResourceType.kResourceType_RobotDrive, tInstances.kRobotDriveSwerve_AdvantageKit);
@@ -232,6 +236,11 @@ public class Drive extends SubsystemBase {
 
     // Update gyro alert
     gyroDisconnectedAlert.set(!gyroInputs.connected && SimConstants.currentMode != Mode.SIM);
+
+    SmartDashboard.putBoolean("right lidar", dualLidar.isLidarRightTripped.getAsBoolean());
+    SmartDashboard.putBoolean("left lidar", dualLidar.isLidarLeftTripped.getAsBoolean());
+    SmartDashboard.putNumber("right lidar number", dualLidar.getLidarRightOutput());
+    SmartDashboard.putNumber("left lidar number", dualLidar.getLidarLeftOutput());
   }
 
   /**
@@ -400,7 +409,23 @@ public class Drive extends SubsystemBase {
                 () ->
                     (getYMetersPerSecond.getAsDouble() * 0.5)
                         + TeleopFeatureUtils.getReefFaceSpeedY(targetHeading[0], newAlignSpeed),
-                () -> targetHeading[0])
+                () -> {
+                  SmartDashboard.putNumber("target heading", targetHeading[0].getDegrees());
+                  return targetHeading[0];
+                })
+            .beforeStarting(
+                () -> {
+                  SmartDashboard.putBoolean("Auto Aligning", true);
+                  targetHeading[0] =
+                      TeleopFeatureUtils.getCoralCycleAngleNoOdometry(true, getRotation());
+                  System.out.println(
+                      "Target Heading: "
+                          + targetHeading[0]
+                          + " X: "
+                          + TeleopFeatureUtils.getReefFaceSpeedX(targetHeading[0], newAlignSpeed)
+                          + " Y: "
+                          + TeleopFeatureUtils.getReefFaceSpeedY(targetHeading[0], newAlignSpeed));
+                })
             .until(
                 () -> {
                   if (goingRight == TeleopFeatureUtils.isCloseSideOfReef(targetHeading[0])) {
@@ -412,7 +437,10 @@ public class Drive extends SubsystemBase {
         getSwerveHeadingCorrected(
                 () -> TeleopFeatureUtils.getReefFaceSpeedX(targetHeading[0], -newAlignSpeed * 0.5),
                 () -> TeleopFeatureUtils.getReefFaceSpeedY(targetHeading[0], -newAlignSpeed * 0.5),
-                () -> targetHeading[0])
+                () -> {
+                  SmartDashboard.putNumber("target heading", targetHeading[0].getDegrees());
+                  return targetHeading[0];
+                })
             .withTimeout(LidarDrivebaseConstants.AUTO_ALIGN_DRIVE_SPEED_TELEOP),
         DriveCommands.joystickDrive(this, () -> 0, () -> 0, () -> 0).withTimeout(0.04));
   }

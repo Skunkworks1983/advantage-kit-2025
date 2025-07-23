@@ -6,8 +6,8 @@ package frc.robot.subsystems.climber;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -23,7 +23,7 @@ public class Climber extends SubsystemBase {
 
   // magnet sensors for the climber
   // private DigitalInput magnetSensor1;
-  private DigitalInput magnetSensor2;
+  // private DigitalInput magnetSensor2;
 
   // smart pid code for the climber motor
   private SmartPIDControllerTalonFX climberSmartPID;
@@ -34,12 +34,12 @@ public class Climber extends SubsystemBase {
 
   public Climber() {
     // instantiates and sets the position of the climber motor
-    climbMotor = new TalonFX(ClimberConstants.IDs.CLIMBER_KRAKEN_MOTOR);
+    climbMotor = new TalonFX(ClimberConstants.IDs.CLIMBER_KRAKEN_MOTOR, "Collector 2025");
     climbMotor.setPosition(0.0);
 
     // instantiates the climber magnet sensors
     // magnetSensor1 = new DigitalInput(ClimberConstants.IDs.CLIMBER_MAGNET_SENSOR_1);
-    magnetSensor2 = new DigitalInput(ClimberConstants.IDs.CLIMBER_MAGNET_SENSOR_2);
+    // magnetSensor2 = new DigitalInput(ClimberConstants.IDs.CLIMBER_MAGNET_SENSOR_2);
 
     // configs for climber
     TalonFXConfiguration config = new TalonFXConfiguration();
@@ -66,7 +66,7 @@ public class Climber extends SubsystemBase {
     ConditionalSmartDashboard.putBoolean("Climber/Motor Connected", isMotorConnected());
     SmartDashboard.putNumber("Climber/Motor Current", getClimberMotorCurrent());
     // SmartDashboard.putBoolean("Climber/Magnet Sensor 1", magnetSensor1Tripped());
-    SmartDashboard.putBoolean("Climber/Magnet Sensor 2", magnetSensor2Tripped());
+    // SmartDashboard.putBoolean("Climber/Magnet Sensor 2", magnetSensor2Tripped());
     ConditionalSmartDashboard.putNumber("Climber/Set Point", getSetPointMeters());
     ConditionalSmartDashboard.putBoolean("Climber/At Set Point", isAtSetpoint());
   }
@@ -77,9 +77,9 @@ public class Climber extends SubsystemBase {
   // }
 
   // Checks is second magnet sensor is activated. returns true if activated
-  public boolean magnetSensor2Tripped() {
-    return !magnetSensor2.get();
-  }
+  // public boolean magnetSensor2Tripped() {
+  //   return !magnetSensor2.get();
+  // }
 
   // returns height of climber in meters
   public double getHeight() {
@@ -138,11 +138,31 @@ public class Climber extends SubsystemBase {
             });
   }
 
-  // ends if magnet sensors are true
-  public Command waitUntilMagnetSensorsAreTrue() {
-    return Commands.waitUntil(
+  public Command raiseClimber() {
+    return Commands.startEnd(
         () -> {
-          return magnetSensor2Tripped();
+          climbMotor.setControl(new VoltageOut(12));
+        },
+        () -> {
+          climbMotor.setControl(new VoltageOut(0));
         });
   }
+
+  public Command lowerClimber() {
+    return Commands.startEnd(
+        () -> {
+          climbMotor.setControl(new VoltageOut(-12));
+        },
+        () -> {
+          climbMotor.setControl(new VoltageOut(0));
+        });
+  }
+
+  // ends if magnet sensors are true
+  // public Command waitUntilMagnetSensorsAreTrue() {
+  //   return Commands.waitUntil(
+  //       () -> {
+  //         return magnetSensor2Tripped();
+  //       });
+  // }
 }
