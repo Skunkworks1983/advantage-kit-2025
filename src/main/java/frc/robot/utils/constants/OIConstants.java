@@ -37,8 +37,8 @@ public class OIConstants {
         public static final int INTAKE = 17;
         public static final int EXPEL = 24;
 
-        public static final int CLIMBER_GOTO_MAX = 0;
-        public static final int CLIMBER_GOTO_MIN = 0;
+        public static final int CLIMBER_GOTO_MAX = 4;
+        public static final int CLIMBER_GOTO_MIN = 2;
 
         public static final int TARGET_REEF_BUTTON = 3;
         public static final int TARGET_CORAL_STATION_BUTTON = 2;

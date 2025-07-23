@@ -136,6 +136,8 @@ public class Drive extends SubsystemBase {
     modules[2] = new Module(blModuleIO, 2, TunerConstants.BackLeft);
     modules[3] = new Module(brModuleIO, 3, TunerConstants.BackRight);
 
+    headingController.enableContinuousInput(-180, 180);
+
     // Usage reporting for swerve template
     HAL.report(tResourceType.kResourceType_RobotDrive, tInstances.kRobotDriveSwerve_AdvantageKit);
 
@@ -406,7 +408,10 @@ public class Drive extends SubsystemBase {
                 () ->
                     (getYMetersPerSecond.getAsDouble() * 0.5)
                         + TeleopFeatureUtils.getReefFaceSpeedY(targetHeading[0], newAlignSpeed),
-                () -> targetHeading[0])
+                () -> {
+                  SmartDashboard.putNumber("target heading", targetHeading[0].getDegrees());
+                  return targetHeading[0];
+                })
             .beforeStarting(
                 () -> {
                   SmartDashboard.putBoolean("Auto Aligning", true);
@@ -431,7 +436,10 @@ public class Drive extends SubsystemBase {
         getSwerveHeadingCorrected(
                 () -> TeleopFeatureUtils.getReefFaceSpeedX(targetHeading[0], -newAlignSpeed * 0.5),
                 () -> TeleopFeatureUtils.getReefFaceSpeedY(targetHeading[0], -newAlignSpeed * 0.5),
-                () -> targetHeading[0])
+                () -> {
+                  SmartDashboard.putNumber("target heading", targetHeading[0].getDegrees());
+                  return targetHeading[0];
+                })
             .withTimeout(LidarDrivebaseConstants.AUTO_ALIGN_DRIVE_SPEED_TELEOP),
         DriveCommands.joystickDrive(this, () -> 0, () -> 0, () -> 0).withTimeout(0.04));
   }

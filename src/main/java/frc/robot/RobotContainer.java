@@ -203,9 +203,9 @@ public class RobotContainer {
 
     Climber climber = new Climber();
     new JoystickButton(translationJoystick, OIConstants.OI.IDs.Buttons.CLIMBER_GOTO_MAX)
-        .onTrue(climber.goToPositionAfterMagnetSensor(ClimberConstants.CLIMBER_MAX));
+        .whileTrue(climber.raiseClimber());
     new JoystickButton(translationJoystick, OIConstants.OI.IDs.Buttons.CLIMBER_GOTO_MIN)
-        .onTrue(climber.goToPositionAfterMagnetSensor(ClimberConstants.CLIMBER_MIN));
+        .whileTrue(climber.lowerClimber());
 
     Funnel funnel = new Funnel();
     new JoystickButton(translationJoystick, OIConstants.OI.IDs.Buttons.FUNNEL_GO_TO_MAX)
@@ -288,7 +288,8 @@ public class RobotContainer {
         .and(coralToggle)
         .whileTrue(collector.intakeCoralCommand(true, elevator::getEndEffectorSetpoint));
 
-    new JoystickButton(buttonJoystick, OI.IDs.Buttons.EXPEL)
+    JoystickButton joystickButton = new JoystickButton(buttonJoystick, OI.IDs.Buttons.EXPEL);
+    joystickButton
         .and(coralToggle)
         .whileTrue(collector.expelCoralCommand(true, elevator::getEndEffectorSetpoint));
 
@@ -300,13 +301,14 @@ public class RobotContainer {
         .and(algaeToggle)
         .whileTrue(collector.expelAlgaeCommand(true));
 
+    double AUTO_JOYSTICK_SCALE = 0.25;
     new JoystickButton(translationJoystick, OI.IDs.Buttons.LIDAR_SCORE_LEFT)
         .whileTrue(
             new AutomatedLidarScoring(
                 drive,
                 collector,
-                (DoubleSupplier) () -> 0.0,
-                (DoubleSupplier) () -> 0.0,
+                (DoubleSupplier) () -> translationJoystick.getX() * AUTO_JOYSTICK_SCALE,
+                (DoubleSupplier) () -> translationJoystick.getY() * AUTO_JOYSTICK_SCALE,
                 () -> EndEffectorSetpointConstants.CORAL_L4,
                 false,
                 .5,
@@ -317,8 +319,8 @@ public class RobotContainer {
             new AutomatedLidarScoring(
                 drive,
                 collector,
-                (DoubleSupplier) () -> 0.0,
-                (DoubleSupplier) () -> 0.0,
+                (DoubleSupplier) () -> translationJoystick.getX() * AUTO_JOYSTICK_SCALE,
+                (DoubleSupplier) () -> translationJoystick.getY() * AUTO_JOYSTICK_SCALE,
                 () -> EndEffectorSetpointConstants.CORAL_L4,
                 true,
                 .5,
@@ -337,7 +339,7 @@ public class RobotContainer {
     // Switch to X pattern when X button is pressed
     // controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
 
-    // Reset gyro to 0° when B button is pressed
+    // Reset  to 0° when B button is pressed
     //     controller
     //         .b()
     //         .onTrue(
