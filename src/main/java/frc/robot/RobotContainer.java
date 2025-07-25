@@ -257,11 +257,17 @@ public class RobotContainer {
 
     JoystickButton endEffectorToL3 = new JoystickButton(buttonJoystick, OI.IDs.Buttons.GOTO_L3);
     JoystickButton endEffectorToL2 = new JoystickButton(buttonJoystick, OI.IDs.Buttons.GOTO_L2);
+    JoystickButton endEffectorToGround =
+        new JoystickButton(buttonJoystick, OI.IDs.Buttons.GOTO_GROUND);
     JoystickButton endEffectorToScoreLow =
         new JoystickButton(buttonJoystick, OI.IDs.Buttons.GOTO_SCORE_LOW);
     JoystickButton endEffectorStow = new JoystickButton(buttonJoystick, OI.IDs.Buttons.GOTO_STOW);
     JoystickButton endEffectorToScoreHigh =
         new JoystickButton(buttonJoystick, OI.IDs.Buttons.GOTO_SCORE_HIGH);
+    // coral positions
+    endEffectorToGround
+        .and(coralToggle)
+        .onTrue(new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.CORAL_GROUND));
 
     endEffectorToL2
         .and(coralToggle)
@@ -282,6 +288,27 @@ public class RobotContainer {
     endEffectorToScoreHigh
         .and(coralToggle)
         .onTrue(new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.CORAL_L4));
+
+    // algae
+    endEffectorToGround
+        .and(algaeToggle)
+        .onTrue(new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.ALGAE_GROUND));
+
+    endEffectorToScoreLow
+        .and(algaeToggle)
+        .onTrue(new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.ALGAE_PROCESSOR));
+
+    endEffectorToL2
+        .and(algaeToggle)
+        .onTrue(new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.ALGAE_L2));
+
+    endEffectorToL3
+        .and(algaeToggle)
+        .onTrue(new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.ALGAE_L3));
+
+    endEffectorToScoreHigh
+        .and(algaeToggle)
+        .onTrue(new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.ALGAE_NET));
 
     new JoystickButton(buttonJoystick, OI.IDs.Buttons.INTAKE)
         .and(coralToggle)

@@ -27,6 +27,7 @@ public class OIConstants {
         public static final int ALGAE_TOGGLE = 8;
 
         // The following buttons depend on ALGAE_TOGGLE
+        public static final int GOTO_GROUND = 22; // either ground pickup for algae or coral
         public static final int GOTO_SCORE_LOW = 15; // either L1 or proccesor on ALGAE_TOGGLE
         public static final int GOTO_L2 = 13; // either place coral L2 or remove algae L2
         public static final int GOTO_L3 = 12; // either place coral L3 or remove algae L4
