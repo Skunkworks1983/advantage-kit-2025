@@ -309,21 +309,23 @@ public class RobotContainer {
     endEffectorToScoreHigh
         .and(algaeToggle)
         .onTrue(new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.ALGAE_NET));
-
-    new JoystickButton(buttonJoystick, OI.IDs.Buttons.INTAKE)
+        
+    JoystickButton expelButton = new JoystickButton(buttonJoystick, OI.IDs.Buttons.EXPEL);
+    JoystickButton intakeButton = new JoystickButton(buttonJoystick, OI.IDs.Buttons.INTAKE);
+    
+    intakeButton
         .and(coralToggle)
         .whileTrue(collector.intakeCoralCommand(true, elevator::getEndEffectorSetpoint));
 
-    JoystickButton expelButton = new JoystickButton(buttonJoystick, OI.IDs.Buttons.EXPEL);
     expelButton
         .and(coralToggle)
         .whileTrue(collector.expelCoralCommand(true, elevator::getEndEffectorSetpoint));
 
-    new JoystickButton(buttonJoystick, OI.IDs.Buttons.INTAKE)
+    intakeButton
         .and(algaeToggle)
         .whileTrue(collector.intakeAlgaeCommand(true, elevator::getEndEffectorSetpoint));
 
-    new JoystickButton(buttonJoystick, OI.IDs.Buttons.EXPEL)
+    expelButton
         .and(algaeToggle)
         .whileTrue(collector.expelAlgaeCommand(true));
 
