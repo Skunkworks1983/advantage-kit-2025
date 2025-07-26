@@ -208,7 +208,7 @@ public class Collector extends SubsystemBase {
           if (endEffectorSetpoint.get().equals(EndEffectorSetpointConstants.CORAL_L4)) {
             setCollectorSpeeds(CollectorConstants.Speeds.CORAL_EXPEL_L4_SPEED);
           } else if (endEffectorSetpoint.get().equals(EndEffectorSetpointConstants.CORAL_L1)) {
-            setCollectorSpeeds(CollectorConstants.Speeds.CORAL_EXPEL_SLOW_SPEED);
+            setCollectorSpeeds(-CollectorConstants.Speeds.CORAL_EXPEL_SLOW_SPEED);
           } else {
             setCollectorSpeeds(CollectorConstants.Speeds.CORAL_EXPEL_FAST_SPEED);
           }

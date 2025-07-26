@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.AutomatedLidarScoring;
 import frc.robot.commands.MoveEndEffector;
 import frc.robot.subsystems.collector.Collector;
 import frc.robot.subsystems.drive.Drive;
@@ -49,16 +50,16 @@ public class OdometryFreeScoreAuto extends SequentialCommandGroup {
         new TrapezoidProfileDriveStraight(drivebase, Units.feetToMeters(5), false),
         new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.CORAL_L2),
         // This will align to the right
-        // new AutomatedLidarScoring(
-        //   drivebase,
-        //   collector,
-        //   () -> 0.0,
-        //   () -> 0.0,
-        //   !isLeftSideOfBarge,
-        //   0.3,
-        //   () -> Constants.EndEffectorSetpoints.CORAL_L2,
-        //   () -> true
-        // ),
+        new AutomatedLidarScoring(
+            drivebase,
+            collector,
+            () -> 0.0,
+            () -> 0.0,
+            () -> EndEffectorSetpointConstants.CORAL_L2,
+            !isLeftSideOfBarge,
+            0.3,
+            () -> true),
+        Commands.waitSeconds(1.0),
         collector
             .expelCoralCommand(true, () -> EndEffectorSetpointConstants.CORAL_L2)
             .withTimeout(2),

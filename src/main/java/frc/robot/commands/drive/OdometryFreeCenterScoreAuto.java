@@ -39,7 +39,7 @@ public class OdometryFreeCenterScoreAuto extends SequentialCommandGroup {
                   return (time[0] + waitSeconds[0]) < Timer.getFPGATimestamp();
                 }),
         new TrapezoidProfileDriveStraight(drivebase, Units.feetToMeters(5.0), true),
-        new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.CORAL_L2),
+        new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.CORAL_L1),
         // This will align to the right
         // new AutomatedLidarScoring(
         //   drivebase,
@@ -52,7 +52,7 @@ public class OdometryFreeCenterScoreAuto extends SequentialCommandGroup {
         //   () -> true
         // ),
         collector
-            .expelCoralCommand(true, () -> EndEffectorSetpointConstants.CORAL_L2)
+            .expelCoralCommand(true, () -> EndEffectorSetpointConstants.CORAL_L1)
             .withTimeout(2),
         new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.CORAL_STOW));
   }
