@@ -364,7 +364,7 @@ public class Drive extends SubsystemBase {
 
   /** Resets the current odometry pose. */
   public void setPose(Pose2d pose) {
-    poseEstimator.resetPosition(rawGyroRotation, getModulePositions(), pose);
+    poseEstimator.resetPose(pose);
   }
 
   /** Adds a new timestamped vision measurement. */
@@ -466,6 +466,18 @@ public class Drive extends SubsystemBase {
 
               return rotSpeed;
             });
+  }
+
+  public Command resetGyro() {
+    return Commands.startEnd(
+            () -> {
+              System.out.println("GYRO RESET");
+              setPose(new Pose2d(0, 0, Rotation2d.fromRotations(.5)));
+            },
+            () -> {
+              System.out.println("GYRO RESET ENDED");
+            })
+        .until(() -> true);
   }
 
   public double calculateWithHeadingController(double targetHeading) {

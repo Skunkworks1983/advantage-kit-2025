@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AutomatedLidarScoring;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.MoveEndEffector;
+import frc.robot.commands.drive.OdometryFreeCenterScoreAuto;
 import frc.robot.commands.drive.OdometryFreeScoreAuto;
 import frc.robot.commands.drive.driveOutAuto;
 import frc.robot.commands.funnel.MoveFunnelToSetpoint;
@@ -199,7 +200,7 @@ public class RobotContainer {
         break;
     }
 
-    Joystick translationJoystick = new Joystick(0);
+    // Joystick translationJoystick = new Joystick(0);
 
     Climber climber = new Climber();
     new JoystickButton(buttonJoystick, OIConstants.OI.IDs.Buttons.CLIMBER_GOTO_MAX)
@@ -213,14 +214,21 @@ public class RobotContainer {
     new JoystickButton(buttonJoystick, OIConstants.OI.IDs.Buttons.FUNNEL_GO_TO_MIN)
         .onTrue(new MoveFunnelToSetpoint(funnel, FunnelConstants.FUNNEL_POSITION_LOW_CONVERTED));
 
+    new JoystickButton(translationJoystick, 1).onTrue(drive.resetGyro());
+
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 
-    autoChooser.addDefaultOption(
-        "Drive out", new driveOutAuto(drive, elevator, wrist, collector, true));
+    autoChooser.addDefaultOption("Drive out", new driveOutAuto(drive, elevator, wrist, collector));
 
     autoChooser.addOption(
-        "Free Score Auto", new OdometryFreeScoreAuto(drive, elevator, wrist, collector, true));
+        "Left Score Auto", new OdometryFreeScoreAuto(drive, elevator, wrist, collector, true));
+
+    autoChooser.addOption(
+        "Right Score Auto", new OdometryFreeScoreAuto(drive, elevator, wrist, collector, false));
+
+    autoChooser.addOption(
+        "Center Score Auto", new OdometryFreeCenterScoreAuto(drive, elevator, wrist, collector));
 
     // autoChooser.addOption(
     //     "Simple right score", new OdometryFreeScoreAuto(drive, elevator, wrist, collector,
