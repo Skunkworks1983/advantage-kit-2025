@@ -25,6 +25,7 @@ import frc.robot.commands.AutomatedLidarScoring;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.MoveEndEffector;
 import frc.robot.commands.drive.OdometryFreeScoreAuto;
+import frc.robot.commands.drive.driveOutAuto;
 import frc.robot.commands.funnel.MoveFunnelToSetpoint;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.climber.Climber;
@@ -214,8 +215,12 @@ public class RobotContainer {
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
+    
     autoChooser.addOption(
-        "Drive out", new OdometryFreeScoreAuto(drive, elevator, wrist, collector, true));
+        "Drive out", new driveOutAuto(drive, elevator, wrist, collector, true));
+
+    autoChooser.addOption(
+        "Free Score Auto", new OdometryFreeScoreAuto(drive, elevator, wrist, collector, true));
 
     // autoChooser.addOption(
     //     "Simple right score", new OdometryFreeScoreAuto(drive, elevator, wrist, collector,

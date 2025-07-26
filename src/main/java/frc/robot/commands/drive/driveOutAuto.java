@@ -4,7 +4,6 @@
 
 package frc.robot.commands.drive;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -14,14 +13,12 @@ import frc.robot.subsystems.collector.Collector;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.subsystems.wrist.Wrist;
-import frc.robot.utils.constants.EndEffectorSetpointConstants;
-import frc.robot.commands.MoveEndEffector;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class OdometryFreeScoreAuto extends SequentialCommandGroup {
-  public OdometryFreeScoreAuto(
+public class driveOutAuto extends SequentialCommandGroup {
+  public driveOutAuto(
       Drive drivebase,
       Elevator elevator,
       Wrist wrist,
@@ -43,11 +40,11 @@ public class OdometryFreeScoreAuto extends SequentialCommandGroup {
                 () -> {
                   return (time[0] + waitSeconds[0]) < Timer.getFPGATimestamp();
                 }),
-        new TrapezoidProfileDriveStraight(drivebase, Units.feetToMeters(5.0), true),
-        new RotateToHeadingOffset(
-         drivebase, Rotation2d.fromDegrees(isLeftSideOfBarge ? 60.0 : -60.0)),
-        new TrapezoidProfileDriveStraight(drivebase, Units.feetToMeters(5), false),
-        new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.CORAL_L2),
+        new TrapezoidProfileDriveStraight(drivebase, Units.feetToMeters(5.0), true)
+        // new RotateToHeadingOffset(
+        //  drivebase, Rotation2d.fromDegrees(isLeftSideOfBarge ? 60.0 : -60.0)),
+        // new TrapezoidProfileDriveStraight(drivebase, Units.feetToMeters(5), false),
+        // new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.CORAL_L2),
         // This will align to the right
         // new AutomatedLidarScoring(
         //   drivebase,
@@ -59,10 +56,10 @@ public class OdometryFreeScoreAuto extends SequentialCommandGroup {
         //   () -> Constants.EndEffectorSetpoints.CORAL_L2,
         //   () -> true
         // ),
-        collector
-           .expelCoralCommand(true, () -> EndEffectorSetpointConstants.CORAL_L2)
-           .withTimeout(2),
-        new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.CORAL_STOW)
+        // collector
+        //    .expelCoralCommand(true, () -> EndEffectorSetpointConstants.CORAL_L2)
+        //    .withTimeout(2),
+        // new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.CORAL_STOW)
         );
   }
 }
