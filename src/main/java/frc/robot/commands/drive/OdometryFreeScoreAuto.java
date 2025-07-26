@@ -10,12 +10,12 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.MoveEndEffector;
 import frc.robot.subsystems.collector.Collector;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.subsystems.wrist.Wrist;
 import frc.robot.utils.constants.EndEffectorSetpointConstants;
-import frc.robot.commands.MoveEndEffector;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -45,7 +45,7 @@ public class OdometryFreeScoreAuto extends SequentialCommandGroup {
                 }),
         new TrapezoidProfileDriveStraight(drivebase, Units.feetToMeters(5.0), true),
         new RotateToHeadingOffset(
-         drivebase, Rotation2d.fromDegrees(isLeftSideOfBarge ? 60.0 : -60.0)),
+            drivebase, Rotation2d.fromDegrees(isLeftSideOfBarge ? 60.0 : -60.0)),
         new TrapezoidProfileDriveStraight(drivebase, Units.feetToMeters(5), false),
         new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.CORAL_L2),
         // This will align to the right
@@ -60,9 +60,8 @@ public class OdometryFreeScoreAuto extends SequentialCommandGroup {
         //   () -> true
         // ),
         collector
-           .expelCoralCommand(true, () -> EndEffectorSetpointConstants.CORAL_L2)
-           .withTimeout(2),
-        new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.CORAL_STOW)
-        );
+            .expelCoralCommand(true, () -> EndEffectorSetpointConstants.CORAL_L2)
+            .withTimeout(2),
+        new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.CORAL_STOW));
   }
 }

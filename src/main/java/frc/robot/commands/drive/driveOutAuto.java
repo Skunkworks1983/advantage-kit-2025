@@ -33,6 +33,7 @@ public class driveOutAuto extends SequentialCommandGroup {
         Commands.runEnd(() -> {}, () -> {})
             .beforeStarting(
                 () -> {
+                  System.out.println("DRIVE OUT AUTO RUNS");
                   time[0] = Timer.getFPGATimestamp();
                   waitSeconds[0] = SmartDashboard.getNumber("Auto wait seconds", 2.0);
                 })

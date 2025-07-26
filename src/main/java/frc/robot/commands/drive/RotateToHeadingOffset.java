@@ -21,10 +21,11 @@ public class RotateToHeadingOffset extends Command {
   public RotateToHeadingOffset(Drive drivebase, Rotation2d headingOffset) {
     this.drivebase = drivebase;
     this.headingOffset = headingOffset.getDegrees();
-    rotController = new PIDController(
-        DrivebaseConstants.PIDs.HEADING_CONTROL_kP,
-        DrivebaseConstants.PIDs.HEADING_CONTROL_kI,
-        DrivebaseConstants.PIDs.HEADING_CONTROL_kD);
+    rotController =
+        new PIDController(
+            DrivebaseConstants.PIDs.HEADING_CONTROL_kP,
+            DrivebaseConstants.PIDs.HEADING_CONTROL_kI,
+            DrivebaseConstants.PIDs.HEADING_CONTROL_kD);
 
     // Possibly 0, 360
     rotController.enableContinuousInput(-180, 180); // The PID controller is in degrees\
@@ -42,12 +43,14 @@ public class RotateToHeadingOffset extends Command {
   public void execute() {
     drivebase.runVelocity(
         new ChassisSpeeds(
-            0.0, 0.0, rotController.calculate(drivebase.getPose().getRotation().getDegrees(), this.actualSetpoint)));
+            0.0,
+            0.0,
+            rotController.calculate(
+                drivebase.getPose().getRotation().getDegrees(), this.actualSetpoint)));
   }
 
   @Override
-  public void end(boolean interrupted) {
-  }
+  public void end(boolean interrupted) {}
 
   @Override
   public boolean isFinished() {

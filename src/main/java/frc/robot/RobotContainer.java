@@ -215,8 +215,8 @@ public class RobotContainer {
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
-    
-    autoChooser.addOption(
+
+    autoChooser.addDefaultOption(
         "Drive out", new driveOutAuto(drive, elevator, wrist, collector, true));
 
     autoChooser.addOption(
