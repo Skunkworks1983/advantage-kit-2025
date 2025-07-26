@@ -93,6 +93,7 @@ public class Collector extends SubsystemBase {
   private void setCollectorThrottle(double throttle) {
 
     if (throttle != lastThrottle) {
+      System.out.println("Set collector throttle: " + throttle);
       rightMotor.setControl(dutyCycleOut.withOutput(throttle).withEnableFOC(true));
       lastThrottle = throttle;
     }

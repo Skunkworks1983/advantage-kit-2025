@@ -254,6 +254,9 @@ public class Drive extends SubsystemBase {
     SwerveModuleState[] setpointStates = kinematics.toSwerveModuleStates(discreteSpeeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(setpointStates, TunerConstants.kSpeedAt12Volts);
 
+    SmartDashboard.putNumber("discrete Speeds X: ", discreteSpeeds.vxMetersPerSecond);
+    SmartDashboard.putNumber("discrete Speeds Y: ", discreteSpeeds.vyMetersPerSecond);
+
     // Log unoptimized setpoints and setpoint speeds
     Logger.recordOutput("SwerveStates/Setpoints", setpointStates);
     Logger.recordOutput("SwerveChassisSpeeds/Setpoints", discreteSpeeds);
@@ -261,6 +264,7 @@ public class Drive extends SubsystemBase {
     // Send setpoints to modules
     for (int i = 0; i < 4; i++) {
       modules[i].runSetpoint(setpointStates[i]);
+      SmartDashboard.putNumber("Module " + i, setpointStates[i].speedMetersPerSecond);
     }
 
     // Log optimized setpoints (runSetpoint mutates each state)
