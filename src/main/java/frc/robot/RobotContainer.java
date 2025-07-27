@@ -27,6 +27,7 @@ import frc.robot.commands.MoveEndEffector;
 import frc.robot.commands.drive.OdometryFreeCenterScoreAuto;
 import frc.robot.commands.drive.OdometryFreeCenterScoreAutoL4;
 import frc.robot.commands.drive.OdometryFreeScoreAuto;
+import frc.robot.commands.drive.OdometryFreeScoreAutoL4;
 import frc.robot.commands.drive.driveOutAuto;
 import frc.robot.commands.funnel.MoveFunnelToSetpoint;
 import frc.robot.generated.TunerConstants;
@@ -234,6 +235,13 @@ public class RobotContainer {
     autoChooser.addOption(
         "Center Score Auto L4",
         new OdometryFreeCenterScoreAutoL4(drive, elevator, wrist, collector, true));
+
+    autoChooser.addOption(
+        "Left Score Auto L4", new OdometryFreeScoreAutoL4(drive, elevator, wrist, collector, true));
+
+    autoChooser.addOption(
+        "Right Score Auto L4",
+        new OdometryFreeScoreAutoL4(drive, elevator, wrist, collector, false));
 
     // autoChooser.addOption(
     //     "Simple right score", new OdometryFreeScoreAuto(drive, elevator, wrist, collector,
