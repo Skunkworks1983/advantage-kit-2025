@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.AutomatedLidarScoring;
 import frc.robot.commands.MoveEndEffector;
 import frc.robot.subsystems.collector.Collector;
 import frc.robot.subsystems.drive.Drive;
@@ -19,9 +20,13 @@ import frc.robot.utils.constants.EndEffectorSetpointConstants;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class OdometryFreeCenterScoreAuto extends SequentialCommandGroup {
-  public OdometryFreeCenterScoreAuto(
-      Drive drivebase, Elevator elevator, Wrist wrist, Collector collector) {
+public class OdometryFreeCenterScoreAutoL4 extends SequentialCommandGroup {
+  public OdometryFreeCenterScoreAutoL4(
+      Drive drivebase,
+      Elevator elevator,
+      Wrist wrist,
+      Collector collector,
+      boolean isLeftSideOfBarge) {
 
     double[] time = new double[1];
     time[0] = 0.0;
@@ -39,21 +44,20 @@ public class OdometryFreeCenterScoreAuto extends SequentialCommandGroup {
                   return (time[0] + waitSeconds[0]) < Timer.getFPGATimestamp();
                 }),
         new TrapezoidProfileDriveStraight(drivebase, Units.feetToMeters(5.0), true),
-        new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.CORAL_L1),
         // This will align to the right
-        // new AutomatedLidarScoring(
-        //   drivebase,
-        //   collector,
-        //   () -> 0.0,
-        //   () -> 0.0,
-        //   !isLeftSideOfBarge,
-        //   0.3,
-        //   () -> Constants.EndEffectorSetpoints.CORAL_L2,
-        //   () -> true
-        // ),
+        new AutomatedLidarScoring(
+            drivebase,
+            collector,
+            () -> 0.0,
+            () -> 0.0,
+            () -> EndEffectorSetpointConstants.CORAL_L4,
+            !isLeftSideOfBarge,
+            0.3,
+            () -> true),
+        new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.CORAL_L4),
+        Commands.waitSeconds(1.0),
         collector
-            .expelCoralCommand(true, () -> EndEffectorSetpointConstants.CORAL_L1)
+            .expelCoralCommand(true, () -> EndEffectorSetpointConstants.CORAL_L4)
             .withTimeout(2));
-    // new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.CORAL_STOW));
   }
 }

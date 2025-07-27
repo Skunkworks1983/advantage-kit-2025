@@ -25,6 +25,7 @@ import frc.robot.commands.AutomatedLidarScoring;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.MoveEndEffector;
 import frc.robot.commands.drive.OdometryFreeCenterScoreAuto;
+import frc.robot.commands.drive.OdometryFreeCenterScoreAutoL4;
 import frc.robot.commands.drive.OdometryFreeScoreAuto;
 import frc.robot.commands.drive.driveOutAuto;
 import frc.robot.commands.funnel.MoveFunnelToSetpoint;
@@ -229,6 +230,10 @@ public class RobotContainer {
 
     autoChooser.addOption(
         "Center Score Auto", new OdometryFreeCenterScoreAuto(drive, elevator, wrist, collector));
+
+    autoChooser.addOption(
+        "Center Score Auto L4",
+        new OdometryFreeCenterScoreAutoL4(drive, elevator, wrist, collector, true));
 
     // autoChooser.addOption(
     //     "Simple right score", new OdometryFreeScoreAuto(drive, elevator, wrist, collector,
