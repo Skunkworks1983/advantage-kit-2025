@@ -286,7 +286,6 @@ public class RobotContainer {
         .onTrue(new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.CORAL_L4));
 
     endEffectorToGround
-        .and(coralToggle)
         .onTrue(new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.CORAL_GROUND));
 
     new JoystickButton(buttonJoystick, OI.IDs.Buttons.INTAKE)
