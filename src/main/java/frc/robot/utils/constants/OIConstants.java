@@ -32,6 +32,7 @@ public class OIConstants {
         public static final int GOTO_L3 = 12; // either place coral L3 or remove algae L4
         public static final int GOTO_SCORE_HIGH = 11; // either L4 or net depending on ALGAE_TOGGLE
         public static final int GOTO_STOW = 23;
+        public static final int GOTO_GROUND = 22;
         // f these buttons may change depending on algae or coral mode.
         // Will also change for different positions (e.g. net)
         public static final int INTAKE = 17;

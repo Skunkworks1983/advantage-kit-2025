@@ -262,6 +262,8 @@ public class RobotContainer {
     JoystickButton endEffectorStow = new JoystickButton(buttonJoystick, OI.IDs.Buttons.GOTO_STOW);
     JoystickButton endEffectorToScoreHigh =
         new JoystickButton(buttonJoystick, OI.IDs.Buttons.GOTO_SCORE_HIGH);
+    JoystickButton endEffectorToGround =
+        new JoystickButton(buttonJoystick, OI.IDs.Buttons.GOTO_GROUND);
 
     endEffectorToL2
         .and(coralToggle)
@@ -282,6 +284,10 @@ public class RobotContainer {
     endEffectorToScoreHigh
         .and(coralToggle)
         .onTrue(new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.CORAL_L4));
+
+    endEffectorToGround
+        .and(coralToggle)
+        .onTrue(new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.CORAL_GROUND));
 
     new JoystickButton(buttonJoystick, OI.IDs.Buttons.INTAKE)
         .and(coralToggle)
