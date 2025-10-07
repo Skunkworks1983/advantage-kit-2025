@@ -22,6 +22,7 @@ import java.util.List;
  * to be used by a SwerveDrivePoseEstimator in Drivebase.
  */
 public class Vision extends SubsystemBase {
+  
 
   private VisionConsumer consumer;
   private LinkedList<VisionIO> ios = new LinkedList<VisionIO>();
