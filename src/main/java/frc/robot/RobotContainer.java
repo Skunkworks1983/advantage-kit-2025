@@ -204,7 +204,8 @@ public class RobotContainer {
     new JoystickButton(buttonJoystick, OIConstants.OI.IDs.Buttons.CLIMBER_GOTO_MAX)
         .whileTrue(climber.raiseClimber());
     new JoystickButton(buttonJoystick, OIConstants.OI.IDs.Buttons.CLIMBER_GOTO_MIN)
-        .whileTrue(climber.lowerClimber
+        .whileTrue(climber.lowerClimber());
+
     Funnel funnel = new Funnel();
     new JoystickButton(buttonJoystick, OIConstants.OI.IDs.Buttons.FUNNEL_GO_TO_MAX)
         .onTrue(new MoveFunnelToSetpoint(funnel, FunnelConstants.FUNNEL_POSITION_HIGH_CONVERTED));
