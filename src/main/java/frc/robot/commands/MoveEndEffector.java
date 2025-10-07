@@ -40,6 +40,8 @@ public class MoveEndEffector extends SequentialCommandGroup {
             .beforeStarting(
                 () -> {
                   if (!(elevatorUp && wristUp)) {
+                    System.out.println(
+                        "CANCELING, elevatorUP: " + elevatorUp + " ,wristUP: " + wristUp);
                     this.cancel();
                   }
                 })

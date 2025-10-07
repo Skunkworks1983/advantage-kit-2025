@@ -21,10 +21,14 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.AutomatedLidarScoring;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.MoveEndEffector;
+import frc.robot.commands.drive.OdometryFreeCenterScoreAutoL1;
+import frc.robot.commands.drive.OdometryFreeCenterScoreAutoL4;
+import frc.robot.commands.drive.OdometryFreeScoreAuto;
+import frc.robot.commands.drive.OdometryFreeScoreAutoL4;
+import frc.robot.commands.drive.driveOutAuto;
 import frc.robot.commands.funnel.MoveFunnelToSetpoint;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.climber.Climber;
@@ -198,8 +202,6 @@ public class RobotContainer {
         break;
     }
 
-    Joystick translationJoystick = new Joystick(0);
-
     Climber climber = new Climber();
     new JoystickButton(buttonJoystick, OIConstants.OI.IDs.Buttons.CLIMBER_GOTO_MAX)
         .whileTrue(climber.raiseClimber());
@@ -212,24 +214,52 @@ public class RobotContainer {
     new JoystickButton(buttonJoystick, OIConstants.OI.IDs.Buttons.FUNNEL_GO_TO_MIN)
         .onTrue(new MoveFunnelToSetpoint(funnel, FunnelConstants.FUNNEL_POSITION_LOW_CONVERTED));
 
+    new JoystickButton(translationJoystick, 1).onTrue(drive.resetGyro());
+
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 
+    autoChooser.addDefaultOption("Drive out", new driveOutAuto(drive, elevator, wrist, collector));
+
+    autoChooser.addOption(
+        "Left Score Auto", new OdometryFreeScoreAuto(drive, elevator, wrist, collector, true));
+
+    autoChooser.addOption(
+        "Right Score Auto", new OdometryFreeScoreAuto(drive, elevator, wrist, collector, false));
+
+    autoChooser.addOption(
+        "Center Score Auto", new OdometryFreeCenterScoreAutoL1(drive, elevator, wrist, collector));
+
+    autoChooser.addOption(
+        "Center Score Auto L4",
+        new OdometryFreeCenterScoreAutoL4(drive, elevator, wrist, collector, true));
+
+    autoChooser.addOption(
+        "Left Score Auto L4", new OdometryFreeScoreAutoL4(drive, elevator, wrist, collector, true));
+
+    autoChooser.addOption(
+        "Right Score Auto L4",
+        new OdometryFreeScoreAutoL4(drive, elevator, wrist, collector, false));
+
+    // autoChooser.addOption(
+    //     "Simple right score", new OdometryFreeScoreAuto(drive, elevator, wrist, collector,
+    // false));
+
     // Set up SysId routines
-    autoChooser.addOption(
-        "Drive Wheel Radius Characterization", DriveCommands.wheelRadiusCharacterization(drive));
-    autoChooser.addOption(
-        "Drive Simple FF Characterization", DriveCommands.feedforwardCharacterization(drive));
-    autoChooser.addOption(
-        "Drive SysId (Quasistatic Forward)",
-        drive.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
-    autoChooser.addOption(
-        "Drive SysId (Quasistatic Reverse)",
-        drive.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
-    autoChooser.addOption(
-        "Drive SysId (Dynamic Forward)", drive.sysIdDynamic(SysIdRoutine.Direction.kForward));
-    autoChooser.addOption(
-        "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+    // autoChooser.addOption(
+    //     "Drive Wheel Radius Characterization", DriveCommands.wheelRadiusCharacterization(drive));
+    // autoChooser.addOption(
+    //     "Drive Simple FF Characterization", DriveCommands.feedforwardCharacterization(drive));
+    // autoChooser.addOption(
+    //     "Drive SysId (Quasistatic Forward)",
+    //     drive.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+    // autoChooser.addOption(
+    //     "Drive SysId (Quasistatic Reverse)",
+    //     drive.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+    // autoChooser.addOption(
+    //     "Drive SysId (Dynamic Forward)", drive.sysIdDynamic(SysIdRoutine.Direction.kForward));
+    // autoChooser.addOption(
+    //     "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -257,11 +287,17 @@ public class RobotContainer {
 
     JoystickButton endEffectorToL3 = new JoystickButton(buttonJoystick, OI.IDs.Buttons.GOTO_L3);
     JoystickButton endEffectorToL2 = new JoystickButton(buttonJoystick, OI.IDs.Buttons.GOTO_L2);
+    JoystickButton endEffectorToGround =
+        new JoystickButton(buttonJoystick, OI.IDs.Buttons.GOTO_GROUND);
     JoystickButton endEffectorToScoreLow =
         new JoystickButton(buttonJoystick, OI.IDs.Buttons.GOTO_SCORE_LOW);
     JoystickButton endEffectorStow = new JoystickButton(buttonJoystick, OI.IDs.Buttons.GOTO_STOW);
     JoystickButton endEffectorToScoreHigh =
         new JoystickButton(buttonJoystick, OI.IDs.Buttons.GOTO_SCORE_HIGH);
+    // coral positions
+    endEffectorToGround
+        .and(coralToggle)
+        .onTrue(new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.CORAL_GROUND));
 
     endEffectorToL2
         .and(coralToggle)
@@ -283,22 +319,47 @@ public class RobotContainer {
         .and(coralToggle)
         .onTrue(new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.CORAL_L4));
 
-    new JoystickButton(buttonJoystick, OI.IDs.Buttons.INTAKE)
+    // algae
+    endEffectorStow
+        .and(algaeToggle)
+        .onTrue(new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.ALGAE_STOW));
+
+    endEffectorToGround
+        .and(algaeToggle)
+        .onTrue(new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.ALGAE_GROUND));
+
+    endEffectorToScoreLow
+        .and(algaeToggle)
+        .onTrue(new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.ALGAE_PROCESSOR));
+
+    endEffectorToL2
+        .and(algaeToggle)
+        .onTrue(new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.ALGAE_L2));
+
+    endEffectorToL3
+        .and(algaeToggle)
+        .onTrue(new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.ALGAE_L3));
+
+    endEffectorToScoreHigh
+        .and(algaeToggle)
+        .onTrue(new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.ALGAE_NET));
+
+    JoystickButton expelButton = new JoystickButton(buttonJoystick, OI.IDs.Buttons.EXPEL);
+    JoystickButton intakeButton = new JoystickButton(buttonJoystick, OI.IDs.Buttons.INTAKE);
+
+    intakeButton
         .and(coralToggle)
         .whileTrue(collector.intakeCoralCommand(true, elevator::getEndEffectorSetpoint));
 
-    JoystickButton expelButton = new JoystickButton(buttonJoystick, OI.IDs.Buttons.EXPEL);
     expelButton
         .and(coralToggle)
         .whileTrue(collector.expelCoralCommand(true, elevator::getEndEffectorSetpoint));
 
-    new JoystickButton(buttonJoystick, OI.IDs.Buttons.INTAKE)
+    intakeButton
         .and(algaeToggle)
         .whileTrue(collector.intakeAlgaeCommand(true, elevator::getEndEffectorSetpoint));
 
-    new JoystickButton(buttonJoystick, OI.IDs.Buttons.EXPEL)
-        .and(algaeToggle)
-        .whileTrue(collector.expelAlgaeCommand(true));
+    expelButton.and(algaeToggle).whileTrue(collector.expelAlgaeCommand(true));
 
     double AUTO_JOYSTICK_SCALE = 0.25;
     new JoystickButton(translationJoystick, OI.IDs.Buttons.LIDAR_SCORE_LEFT)
