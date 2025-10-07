@@ -204,8 +204,7 @@ public class RobotContainer {
     new JoystickButton(buttonJoystick, OIConstants.OI.IDs.Buttons.CLIMBER_GOTO_MAX)
         .whileTrue(climber.raiseClimber());
     new JoystickButton(buttonJoystick, OIConstants.OI.IDs.Buttons.CLIMBER_GOTO_MIN)
-        .whileTrue(climber.lowerClimber());
-
+        .whileTrue(climber.lowerClimber
     Funnel funnel = new Funnel();
     new JoystickButton(buttonJoystick, OIConstants.OI.IDs.Buttons.FUNNEL_GO_TO_MAX)
         .onTrue(new MoveFunnelToSetpoint(funnel, FunnelConstants.FUNNEL_POSITION_HIGH_CONVERTED));
@@ -262,7 +261,9 @@ public class RobotContainer {
     JoystickButton endEffectorStow = new JoystickButton(buttonJoystick, OI.IDs.Buttons.GOTO_STOW);
     JoystickButton endEffectorToScoreHigh =
         new JoystickButton(buttonJoystick, OI.IDs.Buttons.GOTO_SCORE_HIGH);
-    JoystickButton endEffectorToGround =
+    JoystickButton coralEndEffectorToGround =
+        new JoystickButton(buttonJoystick, OI.IDs.Buttons.GOTO_GROUND);
+    JoystickButton algaeEndEffectorToGround =
         new JoystickButton(buttonJoystick, OI.IDs.Buttons.GOTO_GROUND);
 
     endEffectorToL2
@@ -285,7 +286,8 @@ public class RobotContainer {
         .and(coralToggle)
         .onTrue(new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.CORAL_L4));
 
-    endEffectorToGround
+    coralEndEffectorToGround
+        .and(coralToggle)
         .onTrue(new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.CORAL_GROUND));
 
     new JoystickButton(buttonJoystick, OI.IDs.Buttons.INTAKE)
@@ -304,6 +306,10 @@ public class RobotContainer {
     new JoystickButton(buttonJoystick, OI.IDs.Buttons.EXPEL)
         .and(algaeToggle)
         .whileTrue(collector.expelAlgaeCommand(true));
+
+    algaeEndEffectorToGround
+        .and(algaeToggle)
+        .onTrue(new MoveEndEffector(elevator, wrist, EndEffectorSetpointConstants.ALGAE_GROUND));
 
     double AUTO_JOYSTICK_SCALE = 0.25;
     new JoystickButton(translationJoystick, OI.IDs.Buttons.LIDAR_SCORE_LEFT)
