@@ -19,8 +19,8 @@ import frc.robot.utils.constants.EndEffectorSetpointConstants;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class OdometryFreeCenterScoreAuto extends SequentialCommandGroup {
-  public OdometryFreeCenterScoreAuto(
+public class OdometryFreeCenterScoreAutoL1 extends SequentialCommandGroup {
+  public OdometryFreeCenterScoreAutoL1(
       Drive drivebase, Elevator elevator, Wrist wrist, Collector collector) {
 
     double[] time = new double[1];

@@ -24,7 +24,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AutomatedLidarScoring;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.MoveEndEffector;
-import frc.robot.commands.drive.OdometryFreeCenterScoreAuto;
+import frc.robot.commands.drive.OdometryFreeCenterScoreAutoL1;
 import frc.robot.commands.drive.OdometryFreeCenterScoreAutoL4;
 import frc.robot.commands.drive.OdometryFreeScoreAuto;
 import frc.robot.commands.drive.OdometryFreeScoreAutoL4;
@@ -202,8 +202,6 @@ public class RobotContainer {
         break;
     }
 
-    // Joystick translationJoystick = new Joystick(0);
-
     Climber climber = new Climber();
     new JoystickButton(buttonJoystick, OIConstants.OI.IDs.Buttons.CLIMBER_GOTO_MAX)
         .whileTrue(climber.raiseClimber());
@@ -230,7 +228,7 @@ public class RobotContainer {
         "Right Score Auto", new OdometryFreeScoreAuto(drive, elevator, wrist, collector, false));
 
     autoChooser.addOption(
-        "Center Score Auto", new OdometryFreeCenterScoreAuto(drive, elevator, wrist, collector));
+        "Center Score Auto", new OdometryFreeCenterScoreAutoL1(drive, elevator, wrist, collector));
 
     autoChooser.addOption(
         "Center Score Auto L4",
