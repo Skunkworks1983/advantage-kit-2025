@@ -89,8 +89,10 @@ public class RobotContainer {
         wrist = new Wrist();
         collector = new Collector();
 
+        // Initialize vision
         Vision vision =
-            new Vision(drive::addVisionMeasurement, VisionConstants.Comp2025Mount.IO_CONSTANTS);
+            new Vision(drive::addVisionMeasurement, VisionConstants.PreSeasonMount.IO_CONSTANTS);
+
         // move to pos coral
         NamedCommands.registerCommand(
             "Coral to L4",
