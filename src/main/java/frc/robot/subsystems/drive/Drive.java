@@ -58,10 +58,12 @@ import frc.robot.utils.LocalADStarAK;
 import frc.robot.utils.TeleopFeatureUtils;
 import frc.robot.utils.constants.SimConstants;
 import frc.robot.utils.constants.SimConstants.Mode;
+import java.io.IOException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
+import org.json.simple.parser.ParseException;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
@@ -145,6 +147,15 @@ public class Drive extends SubsystemBase {
     // Start odometry thread
     PhoenixOdometryThread.getInstance().start();
 
+    RobotConfig robotConfig;
+
+    try {
+      robotConfig = RobotConfig.fromGUISettings();
+    } catch (IOException | ParseException exception) {
+      System.err.println("Failed to load GUI settings");
+      robotConfig = PP_CONFIG;
+    }
+
     // Configure AutoBuilder for PathPlanner
     AutoBuilder.configure(
         this::getPose,
@@ -153,7 +164,7 @@ public class Drive extends SubsystemBase {
         this::runVelocity,
         new PPHolonomicDriveController(
             new PIDConstants(5.0, 0.0, 0.0), new PIDConstants(5.0, 0.0, 0.0)),
-        PP_CONFIG,
+        robotConfig,
         () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
         this);
     Pathfinding.setPathfinder(new LocalADStarAK());
