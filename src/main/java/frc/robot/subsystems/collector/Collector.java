@@ -12,15 +12,19 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.utils.ConditionalSmartDashboard;
 import frc.robot.utils.PIDControllers.SmartPIDControllerTalonFX;
 import frc.robot.utils.constants.CollectorConstants;
 import frc.robot.utils.constants.CurrentLimitConstants;
 import frc.robot.utils.constants.EndEffectorSetpointConstants;
 import frc.robot.utils.constants.EndEffectorToSetpointConstants;
+import frc.robot.utils.constants.OIConstants.OI.IDs.Joysticks;
 import java.util.function.Supplier;
 
 public class Collector extends SubsystemBase {
@@ -89,6 +93,7 @@ public class Collector extends SubsystemBase {
   private void setCollectorThrottle(double throttle) {
 
     if (throttle != lastThrottle) {
+      System.out.println("Set collector throttle: " + throttle);
       rightMotor.setControl(dutyCycleOut.withOutput(throttle).withEnableFOC(true));
       lastThrottle = throttle;
     }
@@ -203,7 +208,7 @@ public class Collector extends SubsystemBase {
           if (endEffectorSetpoint.get().equals(EndEffectorSetpointConstants.CORAL_L4)) {
             setCollectorSpeeds(CollectorConstants.Speeds.CORAL_EXPEL_L4_SPEED);
           } else if (endEffectorSetpoint.get().equals(EndEffectorSetpointConstants.CORAL_L1)) {
-            setCollectorSpeeds(CollectorConstants.Speeds.CORAL_EXPEL_SLOW_SPEED);
+            setCollectorSpeeds(-CollectorConstants.Speeds.CORAL_EXPEL_SLOW_SPEED); //Changed to negative because coral now shoots out opposite direction
           } else {
             setCollectorSpeeds(CollectorConstants.Speeds.CORAL_EXPEL_FAST_SPEED);
           }
@@ -216,11 +221,25 @@ public class Collector extends SubsystemBase {
   }
 
   public Command holdPositionCommand() {
+    Trigger algaeToggle =
+        new JoystickButton(
+            new Joystick(Joysticks.BUTTON_STICK_ID),
+            frc.robot.utils.constants.OIConstants.OI.IDs.Buttons.ALGAE_TOGGLE);
+
     return startEnd(
-        () -> {
-          setCollectorSetPoint(getRightMotorPosition());
-        },
-        () -> {});
+            () -> {
+              if (algaeToggle.getAsBoolean()) {
+                setCollectorThrottle(CollectorConstants.Speeds.ALGAE_INTAKE_SPEED_SLOW);
+              } else {
+                setCollectorSetPoint(getRightMotorPosition());
+              }
+            },
+            () -> {})
+        .until(
+            () -> {
+              return algaeToggle.getAsBoolean();
+            })
+        .repeatedly();
   }
 
   public Command intakeAlgaeCommand(

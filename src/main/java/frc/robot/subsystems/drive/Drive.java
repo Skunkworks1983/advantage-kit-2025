@@ -265,6 +265,9 @@ public class Drive extends SubsystemBase {
     SwerveModuleState[] setpointStates = kinematics.toSwerveModuleStates(discreteSpeeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(setpointStates, TunerConstants.kSpeedAt12Volts);
 
+    SmartDashboard.putNumber("discrete Speeds X: ", discreteSpeeds.vxMetersPerSecond);
+    SmartDashboard.putNumber("discrete Speeds Y: ", discreteSpeeds.vyMetersPerSecond);
+
     // Log unoptimized setpoints and setpoint speeds
     Logger.recordOutput("SwerveStates/Setpoints", setpointStates);
     Logger.recordOutput("SwerveChassisSpeeds/Setpoints", discreteSpeeds);
@@ -272,6 +275,7 @@ public class Drive extends SubsystemBase {
     // Send setpoints to modules
     for (int i = 0; i < 4; i++) {
       modules[i].runSetpoint(setpointStates[i]);
+      SmartDashboard.putNumber("Module " + i, setpointStates[i].speedMetersPerSecond);
     }
 
     // Log optimized setpoints (runSetpoint mutates each state)
@@ -371,7 +375,7 @@ public class Drive extends SubsystemBase {
 
   /** Resets the current odometry pose. */
   public void setPose(Pose2d pose) {
-    poseEstimator.resetPosition(rawGyroRotation, getModulePositions(), pose);
+    poseEstimator.resetPose(pose);
   }
 
   /** Adds a new timestamped vision measurement. */
@@ -473,6 +477,18 @@ public class Drive extends SubsystemBase {
 
               return rotSpeed;
             });
+  }
+
+  public Command resetGyro() {
+    return Commands.startEnd(
+            () -> {
+              System.out.println("GYRO RESET");
+              setPose(new Pose2d(0, 0, Rotation2d.fromRotations(.5)));
+            },
+            () -> {
+              System.out.println("GYRO RESET ENDED");
+            })
+        .until(() -> true);
   }
 
   public double calculateWithHeadingController(double targetHeading) {

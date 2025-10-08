@@ -8,6 +8,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.utils.constants.ElevatorConstants;
@@ -73,6 +74,8 @@ public class MoveElevatorToSetpointCommand extends Command {
 
   @Override
   public boolean isFinished() {
+    SmartDashboard.putNumber(
+        "Abs elevotor POS: ", Math.abs(targetState.position - elevator.getElevatorPosition()));
     return (ElevatorConstants.TOLERENCE_METERS_FOR_MOVE_TO_POSITION
             > Math.abs(targetState.position - elevator.getElevatorPosition()))
         || ((elevator.getBottomLimitSwitch() && !isGoingUp)

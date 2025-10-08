@@ -3,7 +3,7 @@ package frc.robot.utils.constants;
 public class EndEffectorSetpointConstants {
 
   public static final double WRIST_STOW_POSITION_CORAL = 0.0;
-  public static final double WRIST_STOW_POSITION_ALGAE = 0.0;
+  public static final double WRIST_STOW_POSITION_ALGAE = 0.1441;
   public static final double WRIST_PROSSESSOR_STOW_POSITION = 0.1441;
 
   public static final EndEffectorToSetpointConstants ALGAE_GROUND =
@@ -21,11 +21,11 @@ public class EndEffectorSetpointConstants {
       new EndEffectorToSetpointConstants(34.29, 0.1441, 0.1441);
 
   public static final EndEffectorToSetpointConstants CORAL_GROUND =
-      new EndEffectorToSetpointConstants(0.0, 0.3941, WRIST_STOW_POSITION_CORAL);
+      new EndEffectorToSetpointConstants(0.4, 0.3941, WRIST_STOW_POSITION_CORAL);
   public static final EndEffectorToSetpointConstants CORAL_STOW =
-      new EndEffectorToSetpointConstants(0.0, WRIST_STOW_POSITION_CORAL, WRIST_STOW_POSITION_CORAL);
+      new EndEffectorToSetpointConstants(0.4, WRIST_STOW_POSITION_CORAL, WRIST_STOW_POSITION_CORAL);
   public static final EndEffectorToSetpointConstants CORAL_L1 =
-      new EndEffectorToSetpointConstants(12.0, 0.0641, WRIST_STOW_POSITION_CORAL);
+      new EndEffectorToSetpointConstants(13.75, 0.3941, WRIST_STOW_POSITION_CORAL);
   public static final EndEffectorToSetpointConstants CORAL_L2 =
       new EndEffectorToSetpointConstants(
           12.756 + 0.5 + 0.75, (WRIST_PROSSESSOR_STOW_POSITION / 2), WRIST_STOW_POSITION_CORAL);
