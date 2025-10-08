@@ -254,7 +254,7 @@ public class VisionConstants {
                 Units.degreesToRadians(0.0)));
 
     public static final VisionIOConstants[] IO_CONSTANTS = {
-      new VisionIOConstantsPhotonVision("USB_Camera_1_Green_SD", ROBOT_TO_CAMERA)
+      new VisionIOConstantsPhotonVision("USB_1_Green_SD", ROBOT_TO_CAMERA)
     };
   }
 
