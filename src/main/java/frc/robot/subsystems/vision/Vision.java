@@ -32,17 +32,21 @@ public class Vision extends SubsystemBase {
   public Vision(VisionConsumer consumer, VisionIOConstants... ioConstants) {
     this.consumer = consumer;
 
+    System.out.println("VISION CONSTRUCTOR RUNNING");
+
     for (VisionIOConstants constants : ioConstants) {
       try {
         VisionIO initializedIO = constants.init();
         ios.add(initializedIO);
         Field2d field2d = new Field2d();
         SmartDashboard.putData(initializedIO.getName() + " Odometry", field2d);
+        System.out.println("PUTTING VISION FIELD2D TO SMARTDASHBOARD");
         field2ds.add(field2d);
       } catch (Exception e) {
         System.err.println(
             "A vision i/o failed to initialize. Double-check that the camera is plugged in"
                 + "and the camera is working.");
+        System.out.println("FAILED TO INIT CAMERA");
         e.printStackTrace();
         continue;
       }
@@ -62,11 +66,19 @@ public class Vision extends SubsystemBase {
       ios.get(i).updateInputs(inputs[i]);
     }
 
-    for (VisionIOInputs input : inputs) {
-      for (VisionMeasurement measurement : input.measurements) {
+    for (int a = 0; a < inputs.length; a++) {
+      VisionIOInputs input = inputs[a];
+      for (int b = 0; b < input.measurements.length; b++) {
+        VisionMeasurement measurement = input.measurements[b];
+        // field2ds.get(i).setRobotPose(measurement.estimatedPose().toPose2d());
         consumer.accept(
             measurement.estimatedPose().toPose2d(), measurement.timestamp(), measurement.stdDevs());
       }
+      // for (VisionMeasurement measurement : input.measurements) {
+      //   consumer.accept(
+      //       measurement.estimatedPose().toPose2d(), measurement.timestamp(),
+      // measurement.stdDevs());
+      // }
     }
   }
 
