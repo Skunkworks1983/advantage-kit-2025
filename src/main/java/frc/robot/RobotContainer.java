@@ -228,9 +228,6 @@ public class RobotContainer {
         "Right Score Auto", new OdometryFreeScoreAuto(drive, elevator, wrist, collector, false));
 
     autoChooser.addOption(
-        "Center Score Auto", new OdometryFreeCenterScoreAutoL1(drive, elevator, wrist, collector));
-
-    autoChooser.addOption(
         "Center Score Auto L4",
         new OdometryFreeCenterScoreAutoL4(drive, elevator, wrist, collector, true));
 
