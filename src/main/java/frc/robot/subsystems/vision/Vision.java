@@ -11,6 +11,7 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.vision.VisionIO.VisionIOInputs;
 import frc.robot.subsystems.vision.VisionIO.VisionMeasurement;
 import frc.robot.subsystems.vision.constants.VisionIOConstants;
 import java.util.LinkedList;
@@ -25,7 +26,7 @@ public class Vision extends SubsystemBase {
 
   private VisionConsumer consumer;
   private LinkedList<VisionIO> ios = new LinkedList<VisionIO>();
-  VisionIOInputsAutoLogged[] inputs;
+  VisionIOInputs[] inputs;
   private List<Field2d> field2ds = new LinkedList<Field2d>();
 
   public Vision(VisionConsumer consumer, VisionIOConstants... ioConstants) {
@@ -46,10 +47,10 @@ public class Vision extends SubsystemBase {
         continue;
       }
 
-      this.inputs = new VisionIOInputsAutoLogged[ios.size()];
+      this.inputs = new VisionIOInputs[ios.size()];
 
       for (int i = 0; i < ios.size(); i++) {
-        this.inputs[i] = new VisionIOInputsAutoLogged();
+        this.inputs[i] = new VisionIOInputs();
       }
     }
   }
@@ -61,7 +62,7 @@ public class Vision extends SubsystemBase {
       ios.get(i).updateInputs(inputs[i]);
     }
 
-    for (VisionIOInputsAutoLogged input : inputs) {
+    for (VisionIOInputs input : inputs) {
       for (VisionMeasurement measurement : input.measurements) {
         consumer.accept(
             measurement.estimatedPose().toPose2d(), measurement.timestamp(), measurement.stdDevs());

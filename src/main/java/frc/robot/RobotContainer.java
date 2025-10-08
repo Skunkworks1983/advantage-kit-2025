@@ -91,7 +91,7 @@ public class RobotContainer {
 
         // Initialize vision
         Vision vision =
-            new Vision(drive::addVisionMeasurement, VisionConstants.PreSeasonMount.IO_CONSTANTS);
+            new Vision(drive::addVisionMeasurement, VisionConstants.Comp2025Mount.IO_CONSTANTS);
 
         // move to pos coral
         NamedCommands.registerCommand(
