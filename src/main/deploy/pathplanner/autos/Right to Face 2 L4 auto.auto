@@ -7,19 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Middle to 1"
+            "pathName": "Red Center to Face 2"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Coral to L1"
+            "name": "Coral to L4"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "AutomatedLidarScoring right L4"
+            "name": "AutomatedLidarScoring left L4"
           }
         },
         {

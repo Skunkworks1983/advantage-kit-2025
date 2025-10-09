@@ -161,7 +161,7 @@ public class RobotContainer {
                 (DoubleSupplier) () -> 0.0,
                 () -> EndEffectorSetpointConstants.CORAL_L4,
                 true,
-                .5,
+                .3,
                 (BooleanSupplier) () -> true));
 
         NamedCommands.registerCommand(
@@ -173,7 +173,7 @@ public class RobotContainer {
                 (DoubleSupplier) () -> 0.0,
                 () -> EndEffectorSetpointConstants.CORAL_L4,
                 false,
-                .5,
+                .3,
                 (BooleanSupplier) () -> true));
 
         break;
