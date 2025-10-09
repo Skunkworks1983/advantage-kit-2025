@@ -24,7 +24,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AutomatedLidarScoring;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.MoveEndEffector;
-import frc.robot.commands.drive.OdometryFreeCenterScoreAutoL1;
 import frc.robot.commands.drive.OdometryFreeCenterScoreAutoL4;
 import frc.robot.commands.drive.OdometryFreeScoreAuto;
 import frc.robot.commands.drive.OdometryFreeScoreAutoL4;
@@ -214,7 +213,10 @@ public class RobotContainer {
     new JoystickButton(buttonJoystick, OIConstants.OI.IDs.Buttons.FUNNEL_GO_TO_MIN)
         .onTrue(new MoveFunnelToSetpoint(funnel, FunnelConstants.FUNNEL_POSITION_LOW_CONVERTED));
 
-    new JoystickButton(translationJoystick, 1).onTrue(drive.resetGyro());
+    JoystickButton translationJoystickTrigger = new JoystickButton(translationJoystick, 1);
+    JoystickButton rotationJoystickTrigger = new JoystickButton(rotationJoystick, 1);
+
+    translationJoystickTrigger.and(rotationJoystickTrigger).onTrue(drive.resetGyro());
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -226,9 +228,6 @@ public class RobotContainer {
 
     autoChooser.addOption(
         "Right Score Auto", new OdometryFreeScoreAuto(drive, elevator, wrist, collector, false));
-
-    autoChooser.addOption(
-        "Center Score Auto", new OdometryFreeCenterScoreAutoL1(drive, elevator, wrist, collector));
 
     autoChooser.addOption(
         "Center Score Auto L4",
