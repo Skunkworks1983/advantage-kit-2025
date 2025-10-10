@@ -65,6 +65,7 @@ public class RobotContainer {
   frc.robot.subsystems.elevator.Elevator elevator;
   frc.robot.subsystems.wrist.Wrist wrist;
   frc.robot.subsystems.collector.Collector collector;
+  public Funnel funnel;
 
   // Controller
   // private final CommandXboxController controller = new CommandXboxController(0);
@@ -207,7 +208,7 @@ public class RobotContainer {
     new JoystickButton(buttonJoystick, OIConstants.OI.IDs.Buttons.CLIMBER_GOTO_MIN)
         .whileTrue(climber.lowerClimber());
 
-    Funnel funnel = new Funnel();
+    funnel = new Funnel();
     new JoystickButton(buttonJoystick, OIConstants.OI.IDs.Buttons.FUNNEL_GO_TO_MAX)
         .onTrue(new MoveFunnelToSetpoint(funnel, FunnelConstants.FUNNEL_POSITION_HIGH_CONVERTED));
     new JoystickButton(buttonJoystick, OIConstants.OI.IDs.Buttons.FUNNEL_GO_TO_MIN)
