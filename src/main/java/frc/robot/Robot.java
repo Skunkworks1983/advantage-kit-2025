@@ -18,7 +18,9 @@ import com.ctre.phoenix6.swerve.SwerveModuleConstants.DriveMotorArrangement;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants.SteerMotorArrangement;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.funnel.MoveFunnelToSetpoint;
 import frc.robot.generated.TunerConstants;
+import frc.robot.utils.constants.FunnelConstants;
 import frc.robot.utils.constants.SimConstants;
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
@@ -132,6 +134,8 @@ public class Robot extends LoggedRobot {
   @Override
   public void autonomousInit() {
     autonomousCommand = robotContainer.getAutonomousCommand();
+    new MoveFunnelToSetpoint(robotContainer.funnel, FunnelConstants.FUNNEL_POSITION_LOW_CONVERTED)
+        .schedule();
 
     // schedule the autonomous command (example)
     if (autonomousCommand != null) {
