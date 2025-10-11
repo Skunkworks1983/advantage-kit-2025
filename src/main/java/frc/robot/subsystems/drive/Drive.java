@@ -483,7 +483,7 @@ public class Drive extends SubsystemBase {
     return Commands.startEnd(
             () -> {
               System.out.println("GYRO RESET");
-              setPose(new Pose2d(0, 0, Rotation2d.fromRotations(.5)));
+              setPose(new Pose2d(0, 0, Rotation2d.fromRotations(0)));
             },
             () -> {
               System.out.println("GYRO RESET ENDED");
