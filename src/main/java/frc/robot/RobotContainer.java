@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AutomatedLidarScoring;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.MoveEndEffector;
+import frc.robot.commands.autoUtils.WaitWithDashboard;
 import frc.robot.commands.drive.OdometryFreeCenterScoreAutoL4;
 import frc.robot.commands.drive.OdometryFreeScoreAuto;
 import frc.robot.commands.drive.OdometryFreeScoreAutoL4;
@@ -93,8 +94,11 @@ public class RobotContainer {
         wrist = new Wrist();
         collector = new Collector();
 
-        Vision vision =
-            new Vision(drive::addVisionMeasurement, VisionConstants.Comp2025Mount.IO_CONSTANTS);
+        // Vision vision =
+        //     new Vision(drive::addVisionMeasurement, VisionConstants.Comp2025Mount.IO_CONSTANTS);
+
+        NamedCommands.registerCommand("Wait using elastic #", new WaitWithDashboard());
+
         // move to pos coral
         NamedCommands.registerCommand(
             "Coral to L4",
@@ -144,6 +148,9 @@ public class RobotContainer {
         // Collector
         NamedCommands.registerCommand(
             "Expel Coral", collector.expelCoralCommand(true, elevator::getEndEffectorSetpoint));
+
+        NamedCommands.registerCommand(
+            "Expel Coral With Sensor", collector.expelCoralCommandWithSensor(true, elevator::getEndEffectorSetpoint));
 
         NamedCommands.registerCommand("Expel Algae", collector.expelAlgaeCommand(true));
 

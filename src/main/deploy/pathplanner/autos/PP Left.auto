@@ -5,6 +5,12 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "Wait using elastic #"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Blue Center to Face 6"

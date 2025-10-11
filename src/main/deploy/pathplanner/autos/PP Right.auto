@@ -5,9 +5,9 @@
     "data": {
       "commands": [
         {
-          "type": "wait",
+          "type": "named",
           "data": {
-            "waitTime": 6.0
+            "name": "Wait using elastic #"
           }
         },
         {

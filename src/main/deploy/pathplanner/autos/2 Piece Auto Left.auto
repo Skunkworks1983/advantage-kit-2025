@@ -5,21 +5,9 @@
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "Wait using elastic #"
-          }
-        },
-        {
           "type": "path",
           "data": {
-            "pathName": "Middle to 1"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Coral to L4"
+            "pathName": "Blue Center to Face 6"
           }
         },
         {
@@ -31,7 +19,37 @@
         {
           "type": "named",
           "data": {
-            "name": "Expel Coral"
+            "name": "Expel Coral With Sensor"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "left to pickup"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake Coral"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Left Pickup to face 5"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutomatedLidarScoring left L4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Expel Coral With Sensor"
           }
         }
       ]
