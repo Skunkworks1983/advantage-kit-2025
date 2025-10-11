@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 3.81225,
-        "y": 5.1754999999999995
+        "x": 3.8415,
+        "y": 5.1267499999999995
       },
       "prevControl": {
-        "x": 2.7218110593058853,
-        "y": 6.012439828598303
+        "x": 2.751061059305885,
+        "y": 5.963689828598303
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Face 5"
     }
   ],
   "rotationTargets": [],

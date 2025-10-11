@@ -467,17 +467,23 @@ public class Drive extends SubsystemBase {
       Supplier<Rotation2d> getDesiredHeading) {
 
     return DriveCommands.drive(
-        this,
-        getXMetersPerSecond,
-        getYMetersPerSecond,
-        (DoubleSupplier)
-            () -> {
-              double rotSpeed =
-                  calculateWithHeadingController(getDesiredHeading.get().getDegrees());
+            this,
+            getXMetersPerSecond,
+            getYMetersPerSecond,
+            (DoubleSupplier)
+                () -> {
+                  double rotSpeed =
+                      calculateWithHeadingController(getDesiredHeading.get().getDegrees());
 
-              return rotSpeed;
-            }).beforeStarting(() -> {
-              System.out.println("Start Swerve Heading Corrected, X meters per sec: " + getXMetersPerSecond + ", Y meters per sec: " + getYMetersPerSecond);
+                  return rotSpeed;
+                })
+        .beforeStarting(
+            () -> {
+              System.out.println(
+                  "Start Swerve Heading Corrected, X meters per sec: "
+                      + getXMetersPerSecond
+                      + ", Y meters per sec: "
+                      + getYMetersPerSecond);
             });
   }
 

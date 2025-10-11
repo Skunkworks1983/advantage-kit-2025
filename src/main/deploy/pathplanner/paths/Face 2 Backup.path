@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.203,
-        "y": 2.8561987704918033
+        "x": 5.15775,
+        "y": 2.90375
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.415815104932503,
-        "y": 2.431239354118959
+        "x": 5.370565104932503,
+        "y": 2.478790583627156
       },
       "isLocked": false,
       "linkedName": "Face 2"
@@ -25,7 +25,7 @@
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Face 2 Backup Point"
     }
   ],
   "rotationTargets": [],

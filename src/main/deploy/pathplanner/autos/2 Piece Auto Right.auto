@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Blue Center to Face 6"
+            "pathName": "Red Center to Face 2"
           }
         },
         {
@@ -25,7 +25,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Face 6 Backup"
+            "pathName": "Face 2 Backup"
           }
         },
         {
@@ -37,7 +37,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "left to pickup"
+            "pathName": "Face 2 to Pickup"
           }
         },
         {
@@ -49,7 +49,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Left Pickup to face 5"
+            "pathName": "Right Pickup to Face 3"
           }
         },
         {
@@ -67,7 +67,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Face 5 Backup"
+            "pathName": "Face 3 Backup"
           }
         },
         {
