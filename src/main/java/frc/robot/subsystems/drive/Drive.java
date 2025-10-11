@@ -476,6 +476,8 @@ public class Drive extends SubsystemBase {
                   calculateWithHeadingController(getDesiredHeading.get().getDegrees());
 
               return rotSpeed;
+            }).beforeStarting(() -> {
+              System.out.println("Start Swerve Heading Corrected, X meters per sec: " + getXMetersPerSecond + ", Y meters per sec: " + getYMetersPerSecond);
             });
   }
 

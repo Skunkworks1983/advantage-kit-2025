@@ -31,7 +31,19 @@
         {
           "type": "named",
           "data": {
-            "name": "Expel Coral"
+            "name": "Expel Coral With Sensor"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Face 1 Backup"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Coral to Stow"
           }
         }
       ]

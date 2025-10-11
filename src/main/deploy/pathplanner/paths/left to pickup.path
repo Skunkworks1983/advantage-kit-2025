@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.190676229508196,
-        "y": 5.1698258196721305
+        "x": 5.421,
+        "y": 5.585
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.00389344262295,
-        "y": 6.080891393442622
+        "x": 3.790556101635973,
+        "y": 6.118695481694473
       },
       "isLocked": false,
-      "linkedName": "Face 6"
+      "linkedName": "Face 6 backup point"
     },
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 7.1255
       },
       "prevControl": {
-        "x": 1.977811475409836,
-        "y": 6.753881147540983
+        "x": 2.272313977201318,
+        "y": 6.81344710281084
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,7 +48,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -119.99999999999999
+    "rotation": -118.9888225211915
   },
   "useDefaultConstraints": true
 }
