@@ -224,28 +224,31 @@ public class Collector extends SubsystemBase {
   }
 
   public Command expelCoralCommandWithSensor(
-    boolean stopOnEnd, Supplier<EndEffectorToSetpointConstants> endEffectorSetpoint) {
-  return runEnd(
-      () -> {
-        if (endEffectorSetpoint.get().equals(EndEffectorSetpointConstants.CORAL_L4)) {
-          setCollectorSpeeds(CollectorConstants.Speeds.CORAL_EXPEL_L4_SPEED);
-        } else if (endEffectorSetpoint.get().equals(EndEffectorSetpointConstants.CORAL_L1)) {
-          setCollectorSpeeds(
-              -CollectorConstants.Speeds
-                  .CORAL_EXPEL_SLOW_SPEED); // Changed to negative because coral now shoots out
-          // opposite direction
-        } else {
-          setCollectorSpeeds(CollectorConstants.Speeds.CORAL_EXPEL_FAST_SPEED);
-        }
-      },
-      () -> {
-        if (stopOnEnd) {
-          setCollectorSpeeds(0);
-        }
-      }).until(() -> {
-        return !isHoldingCoral();
-      });
-}
+      boolean stopOnEnd, Supplier<EndEffectorToSetpointConstants> endEffectorSetpoint) {
+    return runEnd(
+            () -> {
+              if (endEffectorSetpoint.get().equals(EndEffectorSetpointConstants.CORAL_L4)) {
+                setCollectorSpeeds(CollectorConstants.Speeds.CORAL_EXPEL_L4_SPEED);
+              } else if (endEffectorSetpoint.get().equals(EndEffectorSetpointConstants.CORAL_L1)) {
+                setCollectorSpeeds(
+                    -CollectorConstants.Speeds
+                        .CORAL_EXPEL_SLOW_SPEED); // Changed to negative because coral now shoots
+                // out
+                // opposite direction
+              } else {
+                setCollectorSpeeds(CollectorConstants.Speeds.CORAL_EXPEL_FAST_SPEED);
+              }
+            },
+            () -> {
+              if (stopOnEnd) {
+                setCollectorSpeeds(0);
+              }
+            })
+        .until(
+            () -> {
+              return !isHoldingCoral();
+            });
+  }
 
   public Command holdPositionCommand() {
     Trigger algaeToggle =

@@ -51,10 +51,6 @@ public class Funnel extends SubsystemBase {
   @Override
   public void periodic() {
     pivotMotorSpeedController.updatePID();
-    SmartDashboard.putNumber("Funnel/Motor Pos (revs)", getPos());
-    ConditionalSmartDashboard.putNumber("Funnel/Set point (revs)", setpoint);
-    ConditionalSmartDashboard.putBoolean("Funnel/At Set Point", isAtSetpoint());
-    ConditionalSmartDashboard.putNumber("Funnel/Motor Current", getCurrent());
   }
 
   public double getPos() {

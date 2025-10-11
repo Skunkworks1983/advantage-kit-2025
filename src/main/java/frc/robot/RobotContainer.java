@@ -41,8 +41,6 @@ import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.subsystems.funnel.Funnel;
-import frc.robot.subsystems.vision.Vision;
-import frc.robot.subsystems.vision.constants.VisionConstants;
 import frc.robot.subsystems.wrist.Wrist;
 import frc.robot.utils.constants.EndEffectorSetpointConstants;
 import frc.robot.utils.constants.FunnelConstants;
@@ -150,7 +148,8 @@ public class RobotContainer {
             "Expel Coral", collector.expelCoralCommand(true, elevator::getEndEffectorSetpoint));
 
         NamedCommands.registerCommand(
-            "Expel Coral With Sensor", collector.expelCoralCommandWithSensor(true, elevator::getEndEffectorSetpoint));
+            "Expel Coral With Sensor",
+            collector.expelCoralCommandWithSensor(true, elevator::getEndEffectorSetpoint));
 
         NamedCommands.registerCommand("Expel Algae", collector.expelAlgaeCommand(true));
 
