@@ -44,7 +44,7 @@ public final class ElevatorConstants {
 
   public class Profile {
     public static final double MAX_VELOCITY = 50.0;
-    public static final double MAX_ACCELERATION = 115.0;
+    public static final double MAX_ACCELERATION = 115.0 * 1.05;
     public static final double MAX_VELOCITY_NET = 60.0;
   }
 }
