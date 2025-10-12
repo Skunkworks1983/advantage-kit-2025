@@ -13,12 +13,6 @@
         {
           "type": "named",
           "data": {
-            "name": "Coral to L4"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "AutomatedLidarScoring left L4"
           }
         },

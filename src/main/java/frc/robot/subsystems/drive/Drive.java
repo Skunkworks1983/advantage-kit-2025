@@ -409,6 +409,7 @@ public class Drive extends SubsystemBase {
 
   public void pointHorizontal() {
     Rotation2d[] headings = new Rotation2d[4];
+    runVelocity(new ChassisSpeeds());
     for (int i = 0; i < 4; i++) {
       headings[i] = new Rotation2d(Rotations.of(.5).in(Radians));
     }
@@ -421,7 +422,8 @@ public class Drive extends SubsystemBase {
         () -> {
           pointHorizontal();
         },
-        this);
+        this
+    );
   }
 
   public Command getSwerveAlignCoral(
