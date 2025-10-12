@@ -411,7 +411,7 @@ public class Drive extends SubsystemBase {
     Rotation2d[] headings = new Rotation2d[4];
     runVelocity(new ChassisSpeeds());
     for (int i = 0; i < 4; i++) {
-      headings[i] = new Rotation2d(Rotations.of(.5).in(Radians));
+      headings[i] = new Rotation2d(Rotations.of(0).in(Radians));
     }
     kinematics.resetHeadings(headings);
     stop();
