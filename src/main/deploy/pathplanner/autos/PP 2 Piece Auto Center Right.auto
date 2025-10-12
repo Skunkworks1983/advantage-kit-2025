@@ -13,18 +13,6 @@
         {
           "type": "named",
           "data": {
-            "name": "Point all wheels horizontal"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 5.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "Coral to L4"
           }
         },
