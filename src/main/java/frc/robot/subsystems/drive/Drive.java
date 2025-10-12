@@ -422,8 +422,7 @@ public class Drive extends SubsystemBase {
         () -> {
           pointHorizontal();
         },
-        this
-    );
+        this);
   }
 
   public Command getSwerveAlignCoral(
