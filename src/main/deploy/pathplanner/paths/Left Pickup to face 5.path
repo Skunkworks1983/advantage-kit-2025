@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.3064999999999998,
-        "y": 7.1255
+        "x": 1.3260000000000003,
+        "y": 7.0865
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.8606649062564098,
-        "y": 6.7095901905684965
+        "x": 1.8801649062564103,
+        "y": 6.670590190568497
       },
       "isLocked": false,
       "linkedName": "left pickup"
@@ -48,7 +48,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -51.072456407207724
+    "rotation": -51.08852815419517
   },
   "useDefaultConstraints": false
 }
