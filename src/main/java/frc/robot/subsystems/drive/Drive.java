@@ -417,9 +417,11 @@ public class Drive extends SubsystemBase {
   }
 
   public Command horizontal() {
-    return Commands.runOnce(() -> {
-      pointHorizontal();
-    }, this);
+    return Commands.runOnce(
+        () -> {
+          pointHorizontal();
+        },
+        this);
   }
 
   public Command getSwerveAlignCoral(
