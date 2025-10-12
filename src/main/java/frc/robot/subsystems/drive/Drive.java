@@ -407,6 +407,21 @@ public class Drive extends SubsystemBase {
     };
   }
 
+  public void pointHorizontal() {
+    Rotation2d[] headings = new Rotation2d[4];
+    for (int i = 0; i < 4; i++) {
+      headings[i] = new Rotation2d(Rotations.of(.5).in(Radians));
+    }
+    kinematics.resetHeadings(headings);
+    stop();
+  }
+
+  public Command horizontal() {
+    return Commands.runOnce(() -> {
+      pointHorizontal();
+    }, this);
+  }
+
   public Command getSwerveAlignCoral(
       DoubleSupplier getXMetersPerSecond,
       DoubleSupplier getYMetersPerSecond,

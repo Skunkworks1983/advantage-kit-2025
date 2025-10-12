@@ -159,6 +159,8 @@ public class RobotContainer {
         NamedCommands.registerCommand(
             "Intake Algae ", collector.intakeAlgaeCommand(true, elevator::getEndEffectorSetpoint));
 
+        NamedCommands.registerCommand("Point all wheels horizontal", drive.horizontal());
+
         NamedCommands.registerCommand(
             "AutomatedLidarScoring right L4",
             new AutomatedLidarScoring(
