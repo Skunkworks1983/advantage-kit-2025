@@ -407,6 +407,9 @@ public class Drive extends SubsystemBase {
     };
   }
 
+  /** Points the wheels horizontal to help with lidar jitter against the reef
+   *  DOES NOT CURRENTLY WORK
+   */
   public void pointHorizontal() {
     Rotation2d[] headings = new Rotation2d[4];
     runVelocity(new ChassisSpeeds());
