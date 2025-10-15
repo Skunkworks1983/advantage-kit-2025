@@ -9,9 +9,7 @@ import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.utils.ConditionalSmartDashboard;
 import frc.robot.utils.PIDControllers.SmartPIDControllerCANSparkMax;
 import frc.robot.utils.constants.ClimberConstants;
 import frc.robot.utils.constants.FunnelConstants;
@@ -51,10 +49,6 @@ public class Funnel extends SubsystemBase {
   @Override
   public void periodic() {
     pivotMotorSpeedController.updatePID();
-    SmartDashboard.putNumber("Funnel/Motor Pos (revs)", getPos());
-    ConditionalSmartDashboard.putNumber("Funnel/Set point (revs)", setpoint);
-    ConditionalSmartDashboard.putBoolean("Funnel/At Set Point", isAtSetpoint());
-    ConditionalSmartDashboard.putNumber("Funnel/Motor Current", getCurrent());
   }
 
   public double getPos() {

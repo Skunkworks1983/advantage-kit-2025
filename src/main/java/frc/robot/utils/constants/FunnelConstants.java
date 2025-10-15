@@ -8,7 +8,7 @@ public class FunnelConstants {
   public static final double FUNNEL_TOLERANCE = 0.1;
 
   public class PIDs {
-    public static final double FUNNEL_KP = .08;
+    public static final double FUNNEL_KP = .1;
     public static final double FUNNEL_KD = 0.0;
     public static final double FUNNEL_KI = 0.0;
     public static final double FUNNEL_KF = 0.0;

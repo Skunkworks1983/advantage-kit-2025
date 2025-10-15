@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AutomatedLidarScoring;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.MoveEndEffector;
+import frc.robot.commands.autoUtils.WaitWithDashboard;
 import frc.robot.commands.drive.OdometryFreeCenterScoreAutoL4;
 import frc.robot.commands.drive.OdometryFreeScoreAuto;
 import frc.robot.commands.drive.OdometryFreeScoreAutoL4;
@@ -40,8 +41,6 @@ import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.subsystems.funnel.Funnel;
-import frc.robot.subsystems.vision.Vision;
-import frc.robot.subsystems.vision.constants.VisionConstants;
 import frc.robot.subsystems.wrist.Wrist;
 import frc.robot.utils.constants.EndEffectorSetpointConstants;
 import frc.robot.utils.constants.FunnelConstants;
@@ -65,6 +64,7 @@ public class RobotContainer {
   frc.robot.subsystems.elevator.Elevator elevator;
   frc.robot.subsystems.wrist.Wrist wrist;
   frc.robot.subsystems.collector.Collector collector;
+  public Funnel funnel;
 
   // Controller
   // private final CommandXboxController controller = new CommandXboxController(0);
@@ -92,8 +92,11 @@ public class RobotContainer {
         wrist = new Wrist();
         collector = new Collector();
 
-        Vision vision =
-            new Vision(drive::addVisionMeasurement, VisionConstants.Comp2025Mount.IO_CONSTANTS);
+        // Vision vision =
+        //     new Vision(drive::addVisionMeasurement, VisionConstants.Comp2025Mount.IO_CONSTANTS);
+
+        NamedCommands.registerCommand("Wait using elastic #", new WaitWithDashboard());
+
         // move to pos coral
         NamedCommands.registerCommand(
             "Coral to L4",
@@ -144,6 +147,10 @@ public class RobotContainer {
         NamedCommands.registerCommand(
             "Expel Coral", collector.expelCoralCommand(true, elevator::getEndEffectorSetpoint));
 
+        NamedCommands.registerCommand(
+            "Expel Coral With Sensor",
+            collector.expelCoralCommandWithSensor(true, elevator::getEndEffectorSetpoint));
+
         NamedCommands.registerCommand("Expel Algae", collector.expelAlgaeCommand(true));
 
         NamedCommands.registerCommand(
@@ -151,6 +158,8 @@ public class RobotContainer {
 
         NamedCommands.registerCommand(
             "Intake Algae ", collector.intakeAlgaeCommand(true, elevator::getEndEffectorSetpoint));
+
+        NamedCommands.registerCommand("Point all wheels horizontal", drive.horizontal());
 
         NamedCommands.registerCommand(
             "AutomatedLidarScoring right L4",
@@ -207,7 +216,7 @@ public class RobotContainer {
     new JoystickButton(buttonJoystick, OIConstants.OI.IDs.Buttons.CLIMBER_GOTO_MIN)
         .whileTrue(climber.lowerClimber());
 
-    Funnel funnel = new Funnel();
+    funnel = new Funnel();
     new JoystickButton(buttonJoystick, OIConstants.OI.IDs.Buttons.FUNNEL_GO_TO_MAX)
         .onTrue(new MoveFunnelToSetpoint(funnel, FunnelConstants.FUNNEL_POSITION_HIGH_CONVERTED));
     new JoystickButton(buttonJoystick, OIConstants.OI.IDs.Buttons.FUNNEL_GO_TO_MIN)

@@ -1,0 +1,97 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Red Center to Face 2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Coral to L4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutomatedLidarScoring left L4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Expel Coral With Sensor"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Face 2 Backup"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Coral to Stow"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Face 2 to Pickup"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake Coral"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Right Pickup to Face 3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Coral to L4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutomatedLidarScoring left L4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Expel Coral With Sensor"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Face 3 Backup"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Coral to Stow"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

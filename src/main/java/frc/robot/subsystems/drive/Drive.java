@@ -407,6 +407,27 @@ public class Drive extends SubsystemBase {
     };
   }
 
+  /** Points the wheels horizontal to help with lidar jitter against the reef
+   *  DOES NOT CURRENTLY WORK
+   */
+  public void pointHorizontal() {
+    Rotation2d[] headings = new Rotation2d[4];
+    runVelocity(new ChassisSpeeds());
+    for (int i = 0; i < 4; i++) {
+      headings[i] = new Rotation2d(Rotations.of(0).in(Radians));
+    }
+    kinematics.resetHeadings(headings);
+    stop();
+  }
+
+  public Command horizontal() {
+    return Commands.runOnce(
+        () -> {
+          pointHorizontal();
+        },
+        this);
+  }
+
   public Command getSwerveAlignCoral(
       DoubleSupplier getXMetersPerSecond,
       DoubleSupplier getYMetersPerSecond,
@@ -467,15 +488,23 @@ public class Drive extends SubsystemBase {
       Supplier<Rotation2d> getDesiredHeading) {
 
     return DriveCommands.drive(
-        this,
-        getXMetersPerSecond,
-        getYMetersPerSecond,
-        (DoubleSupplier)
-            () -> {
-              double rotSpeed =
-                  calculateWithHeadingController(getDesiredHeading.get().getDegrees());
+            this,
+            getXMetersPerSecond,
+            getYMetersPerSecond,
+            (DoubleSupplier)
+                () -> {
+                  double rotSpeed =
+                      calculateWithHeadingController(getDesiredHeading.get().getDegrees());
 
-              return rotSpeed;
+                  return rotSpeed;
+                })
+        .beforeStarting(
+            () -> {
+              System.out.println(
+                  "Start Swerve Heading Corrected, X meters per sec: "
+                      + getXMetersPerSecond
+                      + ", Y meters per sec: "
+                      + getYMetersPerSecond);
             });
   }
 
@@ -483,7 +512,7 @@ public class Drive extends SubsystemBase {
     return Commands.startEnd(
             () -> {
               System.out.println("GYRO RESET");
-              setPose(new Pose2d(0, 0, Rotation2d.fromRotations(.5)));
+              setPose(new Pose2d(0, 0, Rotation2d.fromRotations(0)));
             },
             () -> {
               System.out.println("GYRO RESET ENDED");
