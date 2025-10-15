@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.4155,
-        "y": 4.0
+        "x": 6.298500000000001,
+        "y": 4.2005
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.1425,
-        "y": 2.0554999999999994
+        "x": 6.025500000000001,
+        "y": 2.2559999999999993
       },
       "isLocked": false,
       "linkedName": "Face 1 Backup"
