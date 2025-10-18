@@ -19,12 +19,6 @@
         {
           "type": "named",
           "data": {
-            "name": "AutomatedLidarScoring left L4"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "Expel Coral With Sensor"
           }
         },
@@ -41,15 +35,22 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "left to pickup"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake Coral"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "left to pickup"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Coral"
+                }
+              }
+            ]
           }
         },
         {
@@ -80,12 +81,6 @@
           "type": "path",
           "data": {
             "pathName": "Face 5 Backup"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Coral to Stow"
           }
         }
       ]

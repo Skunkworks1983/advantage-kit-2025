@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.0895,
-        "y": 5.029249999999999
+        "x": 5.021,
+        "y": 5.22425
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.318787893276263,
-        "y": 5.436533559736932
+        "x": 5.283828496869242,
+        "y": 5.655916126506563
       },
       "isLocked": false,
       "linkedName": "Face 6"
     },
     {
       "anchor": {
-        "x": 5.421,
-        "y": 5.585
+        "x": 5.2455,
+        "y": 5.546
       },
       "prevControl": {
-        "x": 5.15396121379277,
-        "y": 5.098778484093358
+        "x": 5.119530122324534,
+        "y": 5.330056512211116
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -118.9888225211915
+    "rotation": -119.99999999999999
   },
   "reversed": false,
   "folder": null,
