@@ -19,12 +19,6 @@
         {
           "type": "named",
           "data": {
-            "name": "AutomatedLidarScoring left L4"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "Expel Coral With Sensor"
           }
         },
@@ -41,15 +35,22 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Face 1 to Right Feeder"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake Coral"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Face 1 to Right Feeder"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Coral"
+                }
+              }
+            ]
           }
         },
         {

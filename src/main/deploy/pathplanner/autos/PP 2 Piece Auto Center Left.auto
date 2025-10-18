@@ -19,12 +19,6 @@
         {
           "type": "named",
           "data": {
-            "name": "AutomatedLidarScoring left L4"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "Expel Coral With Sensor"
           }
         },
