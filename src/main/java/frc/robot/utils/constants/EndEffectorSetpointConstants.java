@@ -23,7 +23,7 @@ public class EndEffectorSetpointConstants {
   public static final EndEffectorToSetpointConstants CORAL_GROUND =
       new EndEffectorToSetpointConstants(0.4, 0.3941, WRIST_STOW_POSITION_CORAL);
   public static final EndEffectorToSetpointConstants CORAL_STOW =
-      new EndEffectorToSetpointConstants(0.4, WRIST_STOW_POSITION_CORAL, WRIST_STOW_POSITION_CORAL);
+      new EndEffectorToSetpointConstants(0.2, WRIST_STOW_POSITION_CORAL, WRIST_STOW_POSITION_CORAL);
   public static final EndEffectorToSetpointConstants CORAL_L1 =
       new EndEffectorToSetpointConstants(13.75, 0.3941, WRIST_STOW_POSITION_CORAL);
   public static final EndEffectorToSetpointConstants CORAL_L2 =

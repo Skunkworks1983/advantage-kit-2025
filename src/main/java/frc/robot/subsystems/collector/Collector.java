@@ -258,8 +258,8 @@ public class Collector extends SubsystemBase {
                   "Collector/Amp cut off right", rightMotor.getSupplyCurrent().getValueAsDouble());
               ConditionalSmartDashboard.putNumber(
                   "Collector/Amp cut off left", leftMotor.getSupplyCurrent().getValueAsDouble());
-              if (!endEffectorSetpoint.get().equals(EndEffectorSetpointConstants.CORAL_GROUND)
-                  && !endEffectorSetpoint.get().equals(EndEffectorSetpointConstants.CORAL_STOW)) {
+              if (endEffectorSetpoint.get().equals(EndEffectorSetpointConstants.CORAL_GROUND)
+                  || endEffectorSetpoint.get().equals(EndEffectorSetpointConstants.CORAL_STOW)) {
                 if (!beambreak.get()) {
                   endCount[0]++;
                 } else {
