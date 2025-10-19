@@ -55,9 +55,10 @@ public class TeleopFeatureUtils {
         : TeleopFeature.REEF_BLUE;
   }
 
-
   /**
-   * Changes what direction the robot goes in depending on what side of the reef its on: whether its close or far from driver
+   * Changes what direction the robot goes in depending on what side of the reef its on: whether its
+   * close or far from driver
+   *
    * @param targetingAngle
    * @param speed
    * @return
@@ -71,7 +72,9 @@ public class TeleopFeatureUtils {
   }
 
   /**
-   * Changes what direction the robot goes in depending on what side of the reef its on: whether its close or far from driver
+   * Changes what direction the robot goes in depending on what side of the reef its on: whether its
+   * close or far from driver
+   *
    * @param targetingAngle
    * @param speed
    * @return
