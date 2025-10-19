@@ -13,7 +13,7 @@ public class CollectorConstants {
   }
 
   public class Speeds {
-    public static final double CORAL_CHOKE_UP_VELOCITY = -8.0;
+    public static final double CORAL_CHOKE_UP_VELOCITY = -2.0;
     public static final double CORAL_INTAKE_SLOW_SPEED = 8.0; // meters per sec
     public static final double CORAL_INTAKE_FAST_SPEED = 18.0; // meters per sec
     public static final double CORAL_EXPEL_SLOW_SPEED = 3.0; // meters per sec
