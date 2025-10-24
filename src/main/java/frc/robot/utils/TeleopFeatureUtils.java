@@ -55,6 +55,14 @@ public class TeleopFeatureUtils {
         : TeleopFeature.REEF_BLUE;
   }
 
+  /**
+   * Changes what direction the robot goes in depending on what side of the reef its on: whether its
+   * close or far from driver
+   *
+   * @param targetingAngle
+   * @param speed
+   * @return
+   */
   public static double getReefFaceSpeedX(Rotation2d targetingAngle, double speed) {
     if (Math.abs(MathUtil.inputModulus(targetingAngle.getDegrees(), -180, 180)) > 90) {
       return Math.sin(targetingAngle.getRadians()) * speed;
@@ -63,6 +71,14 @@ public class TeleopFeatureUtils {
     }
   }
 
+  /**
+   * Changes what direction the robot goes in depending on what side of the reef its on: whether its
+   * close or far from driver
+   *
+   * @param targetingAngle
+   * @param speed
+   * @return
+   */
   public static double getReefFaceSpeedY(Rotation2d targetingAngle, double speed) {
     if (Math.abs(MathUtil.inputModulus(targetingAngle.getDegrees(), -180, 180)) > 90) {
       return -Math.cos(targetingAngle.getRadians()) * speed;

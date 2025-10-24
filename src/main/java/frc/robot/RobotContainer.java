@@ -357,7 +357,7 @@ public class RobotContainer {
 
     intakeButton
         .and(coralToggle)
-        .whileTrue(collector.intakeCoralCommand(true, elevator::getEndEffectorSetpoint));
+        .whileTrue(collector.chokeUpCommand(true, elevator::getEndEffectorSetpoint));
 
     expelButton
         .and(coralToggle)

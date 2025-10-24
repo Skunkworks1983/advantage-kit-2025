@@ -15,7 +15,7 @@ public final class ElevatorConstants {
   public static final double TOLORENCE_METERS_FOR_SETPOINT = 0.0;
   // This tolerance value will be used for moving to a setpoint
   // using the MoveToPositionCommand.
-  public static final double TOLERENCE_METERS_FOR_MOVE_TO_POSITION = 0.25;
+  public static final double TOLERENCE_METERS_FOR_MOVE_TO_POSITION = 0.45;
 
   // In meters
   public static final double MAX_HEIGHT_CARRIAGE = 1.527175;

@@ -19,12 +19,6 @@
         {
           "type": "named",
           "data": {
-            "name": "AutomatedLidarScoring left L4"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "Expel Coral With Sensor"
           }
         },
@@ -35,9 +29,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "race",
           "data": {
-            "name": "Coral to Stow"
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.5
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Coral to Stow"
+                }
+              }
+            ]
           }
         },
         {
@@ -67,7 +74,7 @@
         {
           "type": "named",
           "data": {
-            "name": "AutomatedLidarScoring left L4"
+            "name": "AutomatedLidarScoring right L4"
           }
         },
         {

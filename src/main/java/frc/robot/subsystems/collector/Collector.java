@@ -223,6 +223,55 @@ public class Collector extends SubsystemBase {
         });
   }
 
+  public Command chokeUpCommand(
+      boolean stopOnEnd, Supplier<EndEffectorToSetpointConstants> endEffectorSetpoint) {
+    int endCount[] = {0};
+    return runEnd(
+            () -> {
+              if (!endEffectorSetpoint.get().equals(EndEffectorSetpointConstants.CORAL_GROUND)
+                  && !endEffectorSetpoint.get().equals(EndEffectorSetpointConstants.CORAL_STOW)) {
+                if (endEffectorSetpoint.get().equals(EndEffectorSetpointConstants.CORAL_L1)) {
+                  setCollectorSetPoint(-CollectorConstants.Speeds.CORAL_CHOKE_UP_VELOCITY);
+                } else {
+                  setCollectorSpeeds(CollectorConstants.Speeds.CORAL_CHOKE_UP_VELOCITY);
+                }
+              } else {
+                if (endEffectorSetpoint.get() == EndEffectorSetpointConstants.CORAL_GROUND) {
+                  setCollectorSpeeds(CollectorConstants.Speeds.CORAL_INTAKE_FAST_SPEED);
+                } else {
+                  setCollectorSpeeds(CollectorConstants.Speeds.CORAL_INTAKE_SLOW_SPEED);
+                }
+              }
+            },
+            () -> {
+              if (stopOnEnd) {
+                setCollectorSpeeds(0);
+              }
+            })
+        .beforeStarting(
+            () -> {
+              endCount[0] = 0;
+            })
+        .until(
+            () -> {
+              ConditionalSmartDashboard.putNumber(
+                  "Collector/Amp cut off right", rightMotor.getSupplyCurrent().getValueAsDouble());
+              ConditionalSmartDashboard.putNumber(
+                  "Collector/Amp cut off left", leftMotor.getSupplyCurrent().getValueAsDouble());
+              if (endEffectorSetpoint.get().equals(EndEffectorSetpointConstants.CORAL_GROUND)
+                  || endEffectorSetpoint.get().equals(EndEffectorSetpointConstants.CORAL_STOW)) {
+                if (!beambreak.get()) {
+                  endCount[0]++;
+                } else {
+                  endCount[0] = 0;
+                }
+                return endCount[0] >= CollectorConstants.END_COUNT_TICK_COUNTER_CORAL;
+              } else {
+                return false;
+              }
+            });
+  }
+
   public Command expelCoralCommandWithSensor(
       boolean stopOnEnd, Supplier<EndEffectorToSetpointConstants> endEffectorSetpoint) {
     return runEnd(
